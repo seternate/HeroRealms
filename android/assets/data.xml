@@ -1,0 +1,1128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<herorealms>
+	<deck name="Basis Deck">
+		<card id="0" name="Arkus, Imperial Dragon">
+			<images>
+				<image>BAS-EN-001-arkus-imperial-dragon.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Dragon</type>
+			</types>
+			<text>Expend: Gain 5 Combat. Draw a card. Imperial: Gain 6 Health.</text>
+			<faction>Imperial</faction>
+			<cost>8</cost>
+			<defense guard="1">6</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="1" name="Close Ranks">
+			<images>
+				<image>BAS-EN-002-close-ranks.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 5 Combat. +2 Combat for each champion you have in play. Imperial: Gain 6 Health.</text>
+			<faction>Imperial</faction>
+			<cost>3</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="2" name="Command">
+			<images>
+				<image>BAS-EN-003-command.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 2 Gold. Gain 3 Combat. Gain 4 Health. Draw a card. &lt;i&gt;"Follow me!"&lt;/i&gt;</text>
+			<faction>Imperial</faction>
+			<cost>5</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="3" name="Darian, War Mage">
+			<images>
+				<image>BAS-EN-004-darian-war-mage.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Mage</type>
+			</types>
+			<text>Expend: Gain 3 Combat. &lt;i&gt;or&lt;/i&gt; Gain 4 Health. &lt;i&gt;The orcs mocked the man’s gibberish at first, but they soon learned to respect Dragontongue.&lt;/i&gt;</text>
+			<faction>Imperial</faction>
+			<cost>4</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="4" name="Domination">
+			<images>
+				<image>BAS-EN-005-domination.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 6 Combat. Gain 6 Health. Draw a card. Imperial: Prepare a champion.</text>
+			<faction>Imperial</faction>
+			<cost>7</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="5" name="Cristov, the Just">
+			<images>
+				<image>BAS-EN-006-cristov-the-just.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Paladin</type>
+			</types>
+			<text>Expend: Gain 2 Combat. Gain 3 Health. Imperial: Draw a card.</text>
+			<faction>Imperial</faction>
+			<cost>5</cost>
+			<defense guard="1">5</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="6" name="Kraka, High Priest">
+			<images>
+				<image>BAS-EN-007-kraka-high-priest.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Priest</type>
+			</types>
+			<text>Expend: Gain 2 Health. Draw a card. Imperial: Gain 2 Health for each champion you have in play.</text>
+			<faction>Imperial</faction>
+			<cost>6</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="7" name="Man-at-Arms">
+			<images>
+				<image>BAS-EN-008-man-at-arms.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Warrior</type>
+			</types>
+			<text>Expend: Gain 2 Combat. +1 Combat for each other guard you have in play.</text>
+			<faction>Imperial</faction>
+			<cost>3</cost>
+			<defense guard="1">4</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="8" name="Master Weyan">
+			<images>
+				<image>BAS-EN-010-master-weyan.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Monk</type>
+			</types>
+			<text>Expend: Gain 3 Combat. +1 Combat for each other champion you have in play.</text>
+			<faction>Imperial</faction>
+			<cost>4</cost>
+			<defense guard="1">4</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="9" name="Rally the Troops">
+			<images>
+				<image>BAS-EN-011-rally-the-troops.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 5 Combat. Gain 5 Health. Imperial: Prepare a champion.</text>
+			<faction>Imperial</faction>
+			<cost>4</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="10" name="Recruit">
+			<images>
+				<image>BAS-EN-012-recruit.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 2 Gold. Gain 3 Health. +1 Health for each champion you have in play. Imperial: Gain 1 Gold.</text>
+			<faction>Imperial</faction>
+			<cost>2</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>3</setqty>
+		</card>
+		<card id="11" name="Tithe Priest">
+			<images>
+				<image>BAS-EN-015-tithe-priest.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Priest</type>
+			</types>
+			<text>Expend: Gain 1 Gold. &lt;i&gt;or&lt;/i&gt; Gain 1 Health for each champion you have in play.</text>
+			<faction>Imperial</faction>
+			<cost>2</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="12" name="Taxation">
+			<images>
+				<image>BAS-EN-017-taxation.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 2 Gold. Imperial: Gain 6 Health.</text>
+			<faction>Imperial</faction>
+			<cost>1</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>3</setqty>
+		</card>
+		<card id="13" name="Word of Power">
+			<images>
+				<image>BAS-EN-020-word-of-power.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Spell</type>
+			</types>
+			<text>Draw two cards. Imperial: Gain 5 Health. Sacrifice: Gain 5 Combat.</text>
+			<faction>Imperial</faction>
+			<cost>6</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="14" name="Borg, Ogre Mercenary">
+			<images>
+				<image>BAS-EN-021-borg-ogre-mercenary.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Ogre Warrior</type>
+			</types>
+			<text>Expend: Gain 4 Combat. &lt;i&gt;Ogres and the Guild have a shared respect for money and violence.&lt;/i&gt;</text>
+			<faction>Guild</faction>
+			<cost>6</cost>
+			<defense guard="1">6</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="15" name="Bribe">
+			<images>
+				<image>BAS-EN-022-bribe.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 3 Gold. Guild: Put the next action you acquire this turn on top of your deck.</text>
+			<faction>Guild</faction>
+			<cost>3</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>3</setqty>
+		</card>
+		<card id="16" name="Death Threat">
+			<images>
+				<image>BAS-EN-025-death-threat.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Assassin</type>
+			</types>
+			<text>Gain 1 Combat. Draw a card. Guild: Stun target champion.</text>
+			<faction>Guild</faction>
+			<cost>3</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="17" name="Deception">
+			<images>
+				<image>BAS-EN-026-deception.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 2 Gold. Draw a card. Guild: Put the next card you acquire this turn into your hand.</text>
+			<faction>Guild</faction>
+			<cost>5</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="18" name="Fire Bomb">
+			<images>
+				<image>BAS-EN-027-fire-bomb.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 8 Combat. Stun target champion. Draw a card. Sacrifice: Gain 5 Combat.</text>
+			<faction>Guild</faction>
+			<cost>8</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="19" name="Hit Job">
+			<images>
+				<image>BAS-EN-028-hit-job.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Assassin</type>
+			</types>
+			<text>Gain 7 Combat. Guild: Stun target champion.</text>
+			<faction>Guild</faction>
+			<cost>4</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="20" name="Intimidation">
+			<images>
+				<image>BAS-EN-029-intimidation.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Rogue</type>
+			</types>
+			<text>Gain 5 Combat. Guild: Gain 2 Gold.</text>
+			<faction>Guild</faction>
+			<cost>2</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="21" name="Myros, Guild Mage">
+			<images>
+				<image>BAS-EN-031-myros-guild-mage.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Mage</type>
+			</types>
+			<text>Expend: Gain 3 Gold. Guild: Gain 4 Combat.</text>
+			<faction>Guild</faction>
+			<cost>5</cost>
+			<defense guard="1">3</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="22" name="Parov, the Enforcer">
+			<images>
+				<image>BAS-EN-032-parov-the-enforcer.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Rogue</type>
+			</types>
+			<text>Expend: Gain 3 Combat. Guild: Draw a card.</text>
+			<faction>Guild</faction>
+			<cost>5</cost>
+			<defense guard="1">5</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="23" name="Profit">
+			<images>
+				<image>BAS-EN-033-profit.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 2 Gold. Guild: Gain 4 Combat.</text>
+			<faction>Guild</faction>
+			<cost>1</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>3</setqty>
+		</card>
+		<card id="24" name="Rake, Master Assassin">
+			<images>
+				<image>BAS-EN-036-rake-master-assassin.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Assassin</type>
+			</types>
+			<text>Expend: Gain 4 Combat. You may stun target champion. &lt;i&gt;His name keeps men of power awake at night.&lt;/i&gt;</text>
+			<faction>Guild</faction>
+			<cost>7</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="25" name="Rasmus, the Smuggler">
+			<images>
+				<image>BAS-EN-037-rasmus-the-smuggler.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Rogue</type>
+			</types>
+			<text>Expend: Gain 2 Gold. Guild: Put the next card you acquire this turn on top of your deck.</text>
+			<faction>Guild</faction>
+			<cost>4</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="26" name="Smash and Grab">
+			<images>
+				<image>BAS-EN-038-smash-and-grab.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Rogue</type>
+			</types>
+			<text>Gain 6 Combat. You may put a card from your discard pile on top of your deck.</text>
+			<faction>Guild</faction>
+			<cost>6</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="27" name="Street Thug">
+			<images>
+				<image>BAS-EN-039-street-thug.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Rogue</type>
+			</types>
+			<text>Expend: Gain 1 Gold. &lt;i&gt;or&lt;/i&gt; Gain 2 Combat. &lt;i&gt;“Give me your gold, or I’ll give you my knife.”&lt;/i&gt;</text>
+			<faction>Guild</faction>
+			<cost>3</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="28" name="Cult Priest">
+			<images>
+				<image>BAS-EN-041-cult-priest.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human</type>
+			</types>
+			<text>Expend: Gain 1 Gold. &lt;i&gt;or&lt;/i&gt; Gain 1 Combat. Necros: Gain 4 Combat.</text>
+			<faction>Necros</faction>
+			<cost>3</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="29" name="Dark Energy">
+			<images>
+				<image>BAS-EN-043-dark-energy.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Spell</type>
+			</types>
+			<text>Gain 7 Combat. Necros: Draw a card.</text>
+			<faction>Necros</faction>
+			<cost>4</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="30" name="Dark Reward">
+			<images>
+				<image>BAS-EN-044-dark-reward.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 3 Gold. You may sacrifice a card in your hand or discard pile. Necros: Gain 6 Combat.</text>
+			<faction>Necros</faction>
+			<cost>5</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="31" name="Death Cultist">
+			<images>
+				<image>BAS-EN-045-death-cultist.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human</type>
+			</types>
+			<text>Expend: Gain 2 Combat. &lt;i&gt;They live for death.&lt;/i&gt;</text>
+			<faction>Necros</faction>
+			<cost>2</cost>
+			<defense guard="1">3</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="32" name="Death Touch">
+			<images>
+				<image>BAS-EN-047-death-touch.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Curse</type>
+			</types>
+			<text>Gain 2 Combat. You may sacrifice a card in your hand or discard pile. Necros: Gain 2 Combat.</text>
+			<faction>Necros</faction>
+			<cost>1</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>3</setqty>
+		</card>
+		<card id="33" name="Rayla, Endweaver">
+			<images>
+				<image>BAS-EN-050-rayla-endweaver.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Mage</type>
+			</types>
+			<text>Expend: Gain 3 Combat. Necros: Draw a card.</text>
+			<faction>Necros</faction>
+			<cost>4</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="34" name="Influence">
+			<images>
+				<image>BAS-EN-051-influence.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 3 Gold. Sacrifice: Gain 3 Combat.</text>
+			<faction>Necros</faction>
+			<cost>2</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>3</setqty>
+		</card>
+		<card id="35" name="Krythos, Master Vampire">
+			<images>
+				<image>BAS-EN-054-krythos-master-vampire.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Vampire</type>
+			</types>
+			<text>Expend: Gain 3 Combat. You may sacrifice a card in your hand or discard pile. If you do, gain an additional 3 Combat.</text>
+			<faction>Necros</faction>
+			<cost>7</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="36" name="Life Drain">
+			<images>
+				<image>BAS-EN-055-life-drain.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Curse</type>
+			</types>
+			<text>Gain 8 Combat. You may sacrifice a card in your hand or discard pile. Necros: Draw a card.</text>
+			<faction>Necros</faction>
+			<cost>6</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="37" name="Lys, the Unseen">
+			<images>
+				<image>BAS-EN-056-lys-the-unseen.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Vampire</type>
+			</types>
+			<text>Expend: Gain 2 Combat. You may sacrifice a card in your hand or discard pile. If you do, gain an additional 2 Combat.</text>
+			<faction>Necros</faction>
+			<cost>6</cost>
+			<defense guard="1">5</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="38" name="The Rot">
+			<images>
+				<image>BAS-EN-057-the-rot.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Curse</type>
+			</types>
+			<text>Gain 4 Combat. You may sacrifice a card in your hand or discard pile. Necros: Gain 3 Combat.</text>
+			<faction>Necros</faction>
+			<cost>3</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="39" name="Tyrannor, the Devourer">
+			<images>
+				<image>BAS-EN-059-tyrannor-the-devourer.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Demon</type>
+			</types>
+			<text>Expend: Gain 4 Combat. may sacrifice up to two cards in your hand and/or discard pile. Necros: Draw a card.</text>
+			<faction>Necros</faction>
+			<cost>8</cost>
+			<defense guard="1">6</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="40" name="Varrick, the Necromancer">
+			<images>
+				<image>BAS-EN-060-varrick-the-necromancer.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Necromancer</type>
+			</types>
+			<text>Expend: Take a champion from your discard pile and put it on top of your deck. Necros: Draw a card.</text>
+			<faction>Necros</faction>
+			<cost>5</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="41" name="Broelyn, Loreweaver">
+			<images>
+				<image>BAS-EN-061-broelyn-loreweaver.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Elf Mage</type>
+			</types>
+			<text>Expend: Gain 2 Gold. Wild: Target opponent discards a card.</text>
+			<faction>Wild</faction>
+			<cost>4</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="42" name="Cron, the Berserker">
+			<images>
+				<image>BAS-EN-062-cron-the-berserker.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Warrior</type>
+			</types>
+			<text>Expend: Gain 5 Combat. Wild: Draw a card.</text>
+			<faction>Wild</faction>
+			<cost>6</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="43" name="Dire Wolf">
+			<images>
+				<image>BAS-EN-063-dire-wolf.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Giant Wolf</type>
+			</types>
+			<text>Expend: Gain 3 Combat. Wild: Gain 4 Combat.</text>
+			<faction>Wild</faction>
+			<cost>5</cost>
+			<defense guard="1">5</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="44" name="Elven Curse">
+			<images>
+				<image>BAS-EN-064-elven-curse.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Elf Curse</type>
+			</types>
+			<text>Gain 6 Combat. Target opponent discards a card. Wild: Gain 3 Combat.</text>
+			<faction>Wild</faction>
+			<cost>3</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="45" name="Elven Gift">
+			<images>
+				<image>BAS-EN-066-elven-gift.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Elf</type>
+			</types>
+			<text>Gain 2 Gold. You may draw a card. If you do, discard a card. Wild: Gain 4 Combat.</text>
+			<faction>Wild</faction>
+			<cost>2</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>3</setqty>
+		</card>
+		<card id="46" name="Grak, Storm Giant">
+			<images>
+				<image>BAS-EN-069-grak-storm-giant.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Giant</type>
+			</types>
+			<text>Expend: Gain 6 Combat. You may draw a card. If you do, discard a card. Wild: Draw a card, then discard a card.</text>
+			<faction>Wild</faction>
+			<cost>8</cost>
+			<defense guard="1">7</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="47" name="Nature's Bounty">
+			<images>
+				<image>BAS-EN-070-natures-bounty.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+			</types>
+			<text>Gain 4 Gold. Wild: Target opponent discards a card. Sacrifice: Gain 4 Combat.</text>
+			<faction>Wild</faction>
+			<cost>4</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="48" name="Orc Grunt">
+			<images>
+				<image>BAS-EN-071-orc-grunt.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Orc</type>
+			</types>
+			<text>Expend: Gain 2 Combat. Wild: Draw a card.</text>
+			<faction>Wild</faction>
+			<cost>3</cost>
+			<defense guard="1">3</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="49" name="Rampage">
+			<images>
+				<image>BAS-EN-073-rampage.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Orc</type>
+			</types>
+			<text>Gain 6 Combat. You may draw up to two cards, then discard that many cards.</text>
+			<faction>Wild</faction>
+			<cost>6</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="50" name="Torgen Rocksplitter">
+			<images>
+				<image>BAS-EN-074-torgen-rocksplitter.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Troll Warrior</type>
+			</types>
+			<text>Expend: Gain 4 Combat. Target opponent discards a card.</text>
+			<faction>Wild</faction>
+			<cost>7</cost>
+			<defense guard="1">7</defense>
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="51" name="Spark">
+			<images>
+				<image>BAS-EN-075-spark.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Spell</type>
+			</types>
+			<text>Gain 3 Combat. Target opponent discards a card. Wild: Gain 2 Combat.</text>
+			<faction>Wild</faction>
+			<cost>1</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>3</setqty>
+		</card>
+		<card id="52" name="Wolf Form">
+			<images>
+				<image>BAS-EN-078-wolf-form.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Action</type>
+				<type>Wolf</type>
+			</types>
+			<text>Gain 8 Combat. Target opponent discards a card. Sacrifice: Target opponent discards a card.</text>
+			<faction>Wild</faction>
+			<cost>5</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="53" name="Wolf Shaman">
+			<images>
+				<image>BAS-EN-079-wolf-shaman.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Champion</type>
+				<type>Human Priest</type>
+			</types>
+			<text>Expend: Gain 2 Combat. +1 Combat for each other Wild card you have in play.</text>
+			<faction>Wild</faction>
+			<cost>2</cost>
+			<defense guard="0" />
+			<level />
+			<role>Market Deck</role>
+			<setqty>2</setqty>
+		</card>
+		<card id="54" name="Fire Gem">
+			<images>
+				<image>BAS-EN-081-fire-gem.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Item</type>
+				<type>Currency</type>
+				<type>Gem</type>
+			</types>
+			<text>Gain 2 Gold. Sacrifice: Gain 3 Combat.</text>
+			<faction />
+			<cost>2</cost>
+			<defense guard="0" />
+			<level />
+			<role>Fire Gems</role>
+			<setqty>16</setqty>
+		</card>
+		<card id="55" name="Gold">
+			<images>
+				<image>BAS-EN-097-gold.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Item</type>
+				<type>Currency</type>
+				<type>Coin</type>
+			</types>
+			<text>Gain 1 Gold.</text>
+			<faction />
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Starting Deck</role>
+			<setqty>28</setqty>
+		</card>
+		<card id="56" name="Shortsword">
+			<images>
+				<image>BAS-EN-125-shortsword.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Item</type>
+				<type>Melee Weapon</type>
+				<type>Sword</type>
+			</types>
+			<text>Gain 2 Combat.</text>
+			<faction />
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Starting Deck</role>
+			<setqty>4</setqty>
+		</card>
+		<card id="57" name="Dagger">
+			<images>
+				<image>BAS-EN-129-dagger.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Item</type>
+				<type>Melee Weapon</type>
+				<type>Dagger</type>
+			</types>
+			<text>Gain 1 Combat.</text>
+			<faction />
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Starting Deck</role>
+			<setqty>4</setqty>
+		</card>
+		<card id="58" name="Ruby">
+			<images>
+				<image>BAS-EN-133-ruby.jpg</image>
+				<image>hero_realms_back.jpg</image>
+			</images>
+			<types>
+				<type>Item</type>
+				<type>Currency</type>
+				<type>Gem</type>
+			</types>
+			<text>Gain 2 Gold.</text>
+			<faction />
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Starting Deck</role>
+			<setqty>4</setqty>
+		</card>
+		<card id="59" name="Scorecard (Ones)">
+			<images>
+				<image>BAS-EN-138-score-ones-blue.jpg</image>
+				<image>BAS-EN-139-score-ones-blue-back.jpg</image>
+			</images>
+			<types>
+				<type />
+			</types>
+			<text />
+			<faction>Blue</faction>
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Scorecard</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="60" name="Scorecard (Ones)">
+			<images>
+				<image>BAS-EN-140-score-ones-green.jpg</image>
+				<image>BAS-EN-141-score-ones-green-back.jpg</image>
+			</images>
+			<types>
+				<type />
+			</types>
+			<text />
+			<faction>Green</faction>
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Scorecard</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="61" name="Scorecard (Ones)">
+			<images>
+				<image>BAS-EN-142-score-ones-red.jpg</image>
+				<image>BAS-EN-143-score-ones-red-back.jpg</image>
+			</images>
+			<types>
+				<type />
+			</types>
+			<text />
+			<faction>Red</faction>
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Scorecard</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="62" name="Scorecard (Ones)">
+			<images>
+				<image>BAS-EN-144-score-ones-yellow.jpg</image>
+				<image>BAS-EN-145-score-ones-yellow-back.jpg</image>
+			</images>
+			<types>
+				<type />
+			</types>
+			<text />
+			<faction>Yellow</faction>
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Scorecard</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="63" name="Scorecard (Tens)">
+			<images>
+				<image>BAS-EN-146-score-tens-blue.jpg</image>
+				<image>BAS-EN-147-score-tens-blue-back.jpg</image>
+			</images>
+			<types>
+				<type />
+			</types>
+			<text />
+			<faction>Blue</faction>
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Scorecard</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="64" name="Scorecard (Tens)">
+			<images>
+				<image>BAS-EN-148-score-tens-green.jpg</image>
+				<image>BAS-EN-149-score-tens-green-back.jpg</image>
+			</images>
+			<types>
+				<type />
+			</types>
+			<text />
+			<faction>Green</faction>
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Scorecard</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="65" name="Scorecard (Tens)">
+			<images>
+				<image>BAS-EN-150-score-tens-red.jpg</image>
+				<image>BAS-EN-151-score-tens-red-back.jpg</image>
+			</images>
+			<types>
+				<type />
+			</types>
+			<text />
+			<faction>Red</faction>
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Scorecard</role>
+			<setqty>1</setqty>
+		</card>
+		<card id="66" name="Scorecard (Tens)">
+			<images>
+				<image>BAS-EN-152-score-tens-yellow.jpg</image>
+				<image>BAS-EN-153-score-tens-yellow-back.jpg</image>
+			</images>
+			<types>
+				<type />
+			</types>
+			<text />
+			<faction>Yellow</faction>
+			<cost />
+			<defense guard="0" />
+			<level />
+			<role>Scorecard</role>
+			<setqty>1</setqty>
+		</card>
+	</deck>
+</herorealms>
