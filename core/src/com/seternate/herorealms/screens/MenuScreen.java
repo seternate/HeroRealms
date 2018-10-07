@@ -12,21 +12,23 @@ public class MenuScreen implements Screen {
 
     public MenuScreen(final Main game) {
         this.game = game;
-        game.assetManager.loadMenuAssets();
+        game.assetManager.loadAssets();
     }
 
 
     @Override
     public void show() {
-
+        while(!game.assetManager.manager.update());
     }
 
     @Override
     public void render(float delta) {
+        Texture cardBack = game.assetManager.manager.get("BAS-EN-001-arkus-imperial-dragon.jpg");
         Gdx.gl.glClearColor(1 ,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
-        //game.batch.draw(game.assetManager.manager.get("hero_realms_back.jpg", Texture.class), 0, 0);
+        //game.batch.draw(new Texture(Gdx.files.internal("hero_realms_back.jpg")), 0, 0);
+        game.batch.draw(game.assetManager.manager.get("BAS-EN-001-arkus-imperial-dragon.jpg", Texture.class), 0, 0);
         game.batch.end();
     }
 
