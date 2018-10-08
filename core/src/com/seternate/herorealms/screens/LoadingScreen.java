@@ -2,11 +2,14 @@ package com.seternate.herorealms.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.XmlReader;
 import com.seternate.herorealms.Main;
 
 import java.util.HashMap;
@@ -17,6 +20,7 @@ public class LoadingScreen implements Screen {
     Stage stage;
 
     Texture logo;
+    Skin labelSkin;
     Label loadText;
 
     float time = 0;
@@ -24,37 +28,56 @@ public class LoadingScreen implements Screen {
 
     public LoadingScreen(final Main game) {
         this.game = game;
-        game.assetManager.manager.load("HeroRealmsLogo.png", Texture.class);
-        while(!game.assetManager.manager.update());
-        logo = game.assetManager.manager.get("HeroRealmsLogo.png");
-
         stage = new Stage();
 
-        Skin labelSkin = new Skin(Gdx.files.internal("skin/plain-james/plain-james-ui.json"));
-        loadText = new Label("Loading", labelSkin);
-        loadText.setSize(Gdx.graphics.getWidth()/10, Gdx.graphics.getHeight()/10);
-        loadText.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        stage.addActor(loadText);
+        game.assetManager.manager.load("HeroRealmsLogo.png", Texture.class);
+        while(!game.assetManager.manager.update());
 
-        game.assetManager.loadAssets();
+        logo = game.assetManager.manager.get("HeroRealmsLogo.png");
+        Image logo_img = new Image(logo);
+        logo_img.setSize(1.5f*logo_img.getWidth()*(Gdx.graphics.getWidth()/Gdx.graphics.getHeight()), 1.5f*logo_img.getHeight()*(Gdx.graphics.getWidth()/Gdx.graphics.getHeight()));
+        logo_img.setPosition((Gdx.graphics.getWidth() - logo_img.getWidth())/2, (Gdx.graphics.getHeight() - logo_img.getHeight())/2);
+        stage.addActor(logo_img);
+
+        labelSkin = new Skin(Gdx.files.internal("skins/plain-james/plain-james-ui.json"));
+        loadText = new Label("Loading...", labelSkin, "white-big");
+        loadText.setFontScale(1.8f);
+        loadText.setPosition((Gdx.graphics.getWidth() - loadText.getWidth()*loadText.getFontScaleX())/2, logo_img.getY() - loadText.getHeight()*loadText.getFontScaleY() - Gdx.graphics.getHeight()/15);
+        stage.addActor(loadText);
     }
 
 
     @Override
     public void show() {
+        XmlReader xmlReader = new XmlReader();
+        game.xml = xmlReader.parse(Gdx.files.internal("data.xml"));
 
+        game.assetManager.loadAssets();
+        game.assetManager.manager.load("background.jpg", Texture.class);
     }
 
     public void update(float delta) {
-        if(game.assetManager.manager.update()) game.setScreen(new MenuScreen(game));
+        if(game.assetManager.manager.update()) {
+            game.setScreen(game.screenManager.add(new MenuScreen(game)));
+        }
         time += delta;
-        if(time%1 == 0) loadText.setText(String.valueOf(time));
+        if(time > 0.5 && loadText.textEquals("Loading...")) {
+            loadText.setText("Loading");
+            time = 0;
+        }else if(time > 0.5 && loadText.textEquals("Loading")) {
+            loadText.setText("Loading.");
+            time = 0;
+        }else if(time > 0.5 && loadText.textEquals("Loading.")) {
+            loadText.setText("Loading..");
+            time = 0;
+        }else if(time > 0.5 && loadText.textEquals("Loading..")) {
+            loadText.setText("Loading...");
+            time = 0;
+        }
     }
 
     public void draw() {
-        game.batch.begin();
-        game.batch.draw(logo, (Gdx.graphics.getWidth() - logo.getWidth())/2, (Gdx.graphics.getHeight() - logo.getHeight())/2);
-        game.batch.end();
+        stage.act();
         stage.draw();
     }
 
@@ -88,6 +111,7 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        labelSkin.dispose();
     }
 }

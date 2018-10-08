@@ -6,18 +6,18 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.XmlReader;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.seternate.herorealms.managers.MyAssetManager;
+import com.seternate.herorealms.managers.ScreenManager;
 import com.seternate.herorealms.screens.LoadingScreen;
 
 public class Main extends Game {
 	public SpriteBatch batch;
 	public Element xml;
 	public MyAssetManager assetManager = new MyAssetManager(this);
+	public ScreenManager screenManager = new ScreenManager();
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		loadGameData();
-		this.setScreen(new LoadingScreen(this));
+		this.setScreen(screenManager.add(new LoadingScreen(this)));
 	}
 
 	@Override
@@ -30,10 +30,4 @@ public class Main extends Game {
 		assetManager.dispose();
 		super.dispose();
 	}
-
-	public void loadGameData() {
-		XmlReader xmlReader = new XmlReader();
-		xml = xmlReader.parse(Gdx.files.internal("data.xml"));
-	}
-
 }
