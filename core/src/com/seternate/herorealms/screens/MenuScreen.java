@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -19,33 +20,37 @@ public class MenuScreen implements Screen {
     CardScreen cardScreen;
 
     Skin skin;
-    Image background, logo;
-
+    Image backgroundImage, logoImage;
     TextButton quickplay_btn, cards_btn, settings_btn, exit_btn;
+
+    Vector2 vBackgroundImageSize, vBackgroundImagePosition, vLogoImageSize, vLogoImagePosition;
 
 
     public MenuScreen(final Main game) {
-        stage = new Stage();
         this.game = game;
+        stage = new Stage();
         cardScreen = new CardScreen(game);
-
-        skin = new Skin(Gdx.files.internal("skins/plain-james/plain-james-ui.json"));
-
-        background = new Image(game.assetManager.manager.get("background.jpg", Texture.class));
-        background.setPosition((Gdx.graphics.getWidth() - background.getWidth())/2, -(background.getHeight() - Gdx.graphics.getHeight()));
-        stage.addActor(background);
-        logo = new Image(game.assetManager.manager.get("HeroRealmsLogo.png", Texture.class));
-        logo.setPosition(Gdx.graphics.getWidth()-logo.getWidth() - Gdx.graphics.getHeight()/50, Gdx.graphics.getHeight()/50);
-        stage.addActor(logo);
+                skin = new Skin(Gdx.files.internal("skins/plain-james/plain-james-ui.json"));
+                backgroundImage = new Image(game.assetManager.manager.get("background.jpg", Texture.class));
+                quickplay_btn = new TextButton("Quickplay", skin);
 
 
-        quickplay_btn = new TextButton("Quickplay", skin);
-        quickplay_btn.getLabel().setFontScale(1.8f);
 
-        cards_btn = new TextButton("Cards", skin);
-        cards_btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
+
+                backgroundImage.setPosition((Gdx.graphics.getWidth() - backgroundImage.getWidth())/2, -(backgroundImage.getHeight() - Gdx.graphics.getHeight()));
+                stage.addActor(backgroundImage);
+                logoImage = new Image(game.assetManager.manager.get("HeroRealmsLogo.png", Texture.class));
+                logoImage.setPosition(Gdx.graphics.getWidth()- logoImage.getWidth() - Gdx.graphics.getHeight()/50, Gdx.graphics.getHeight()/50);
+                stage.addActor(logoImage);
+
+
+
+                quickplay_btn.getLabel().setFontScale(1.8f);
+
+                cards_btn = new TextButton("Cards", skin);
+                cards_btn.addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
                 game.setScreen(game.screenManager.add(cardScreen));
             }
         });
