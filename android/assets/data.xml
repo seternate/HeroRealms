@@ -29,7 +29,7 @@
 			<text>Gain 5 Combat. +2 Combat for each champion you have in play. Imperial: Gain 6 Health.</text>
 			<faction>Imperial</faction>
 			<cost>3</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -45,7 +45,7 @@
 			<text>Gain 2 Gold. Gain 3 Combat. Gain 4 Health. Draw a card. &lt;i&gt;"Follow me!"&lt;/i&gt;</text>
 			<faction>Imperial</faction>
 			<cost>5</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -62,7 +62,7 @@
 			<text>Expend: Gain 3 Combat. &lt;i&gt;or&lt;/i&gt; Gain 4 Health. &lt;i&gt;The orcs mocked the man’s gibberish at first, but they soon learned to respect Dragontongue.&lt;/i&gt;</text>
 			<faction>Imperial</faction>
 			<cost>4</cost>
-			<defense guard="0" />
+			<defense guard="0">5</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -78,7 +78,7 @@
 			<text>Gain 6 Combat. Gain 6 Health. Draw a card. Imperial: Prepare a champion.</text>
 			<faction>Imperial</faction>
 			<cost>7</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -112,7 +112,7 @@
 			<text>Expend: Gain 2 Health. Draw a card. Imperial: Gain 2 Health for each champion you have in play.</text>
 			<faction>Imperial</faction>
 			<cost>6</cost>
-			<defense guard="0" />
+			<defense guard="0">6</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -162,7 +162,7 @@
 			<text>Gain 5 Combat. Gain 5 Health. Imperial: Prepare a champion.</text>
 			<faction>Imperial</faction>
 			<cost>4</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -178,7 +178,7 @@
 			<text>Gain 2 Gold. Gain 3 Health. +1 Health for each champion you have in play. Imperial: Gain 1 Gold.</text>
 			<faction>Imperial</faction>
 			<cost>2</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>3</setqty>
@@ -195,7 +195,7 @@
 			<text>Expend: Gain 1 Gold. &lt;i&gt;or&lt;/i&gt; Gain 1 Health for each champion you have in play.</text>
 			<faction>Imperial</faction>
 			<cost>2</cost>
-			<defense guard="0" />
+			<defense guard="0">3</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>2</setqty>
@@ -211,7 +211,7 @@
 			<text>Gain 2 Gold. Imperial: Gain 6 Health.</text>
 			<faction>Imperial</faction>
 			<cost>1</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>3</setqty>
@@ -228,7 +228,7 @@
 			<text>Draw two cards. Imperial: Gain 5 Health. Sacrifice: Gain 5 Combat.</text>
 			<faction>Imperial</faction>
 			<cost>6</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -261,7 +261,7 @@
 			<text>Gain 3 Gold. Guild: Put the next action you acquire this turn on top of your deck.</text>
 			<faction>Guild</faction>
 			<cost>3</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>3</setqty>
@@ -278,7 +278,7 @@
 			<text>Gain 1 Combat. Draw a card. Guild: Stun target champion.</text>
 			<faction>Guild</faction>
 			<cost>3</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -294,7 +294,7 @@
 			<text>Gain 2 Gold. Draw a card. Guild: Put the next card you acquire this turn into your hand.</text>
 			<faction>Guild</faction>
 			<cost>5</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -310,7 +310,7 @@
 			<text>Gain 8 Combat. Stun target champion. Draw a card. Sacrifice: Gain 5 Combat.</text>
 			<faction>Guild</faction>
 			<cost>8</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -327,7 +327,7 @@
 			<text>Gain 7 Combat. Guild: Stun target champion.</text>
 			<faction>Guild</faction>
 			<cost>4</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -344,7 +344,7 @@
 			<text>Gain 5 Combat. Guild: Gain 2 Gold.</text>
 			<faction>Guild</faction>
 			<cost>2</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>2</setqty>
@@ -394,7 +394,7 @@
 			<text>Gain 2 Gold. Guild: Gain 4 Combat.</text>
 			<faction>Guild</faction>
 			<cost>1</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>3</setqty>
@@ -411,7 +411,7 @@
 			<text>Expend: Gain 4 Combat. You may stun target champion. &lt;i&gt;His name keeps men of power awake at night.&lt;/i&gt;</text>
 			<faction>Guild</faction>
 			<cost>7</cost>
-			<defense guard="0" />
+			<defense guard="0">7</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -428,7 +428,7 @@
 			<text>Expend: Gain 2 Gold. Guild: Put the next card you acquire this turn on top of your deck.</text>
 			<faction>Guild</faction>
 			<cost>4</cost>
-			<defense guard="0" />
+			<defense guard="0">5</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -445,7 +445,7 @@
 			<text>Gain 6 Combat. You may put a card from your discard pile on top of your deck.</text>
 			<faction>Guild</faction>
 			<cost>6</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -462,7 +462,7 @@
 			<text>Expend: Gain 1 Gold. &lt;i&gt;or&lt;/i&gt; Gain 2 Combat. &lt;i&gt;“Give me your gold, or I’ll give you my knife.”&lt;/i&gt;</text>
 			<faction>Guild</faction>
 			<cost>3</cost>
-			<defense guard="0" />
+			<defense guard="0">4</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>2</setqty>
@@ -479,7 +479,7 @@
 			<text>Expend: Gain 1 Gold. &lt;i&gt;or&lt;/i&gt; Gain 1 Combat. Necros: Gain 4 Combat.</text>
 			<faction>Necros</faction>
 			<cost>3</cost>
-			<defense guard="0" />
+			<defense guard="0">4</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>2</setqty>
@@ -496,7 +496,7 @@
 			<text>Gain 7 Combat. Necros: Draw a card.</text>
 			<faction>Necros</faction>
 			<cost>4</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -512,7 +512,7 @@
 			<text>Gain 3 Gold. You may sacrifice a card in your hand or discard pile. Necros: Gain 6 Combat.</text>
 			<faction>Necros</faction>
 			<cost>5</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -546,7 +546,7 @@
 			<text>Gain 2 Combat. You may sacrifice a card in your hand or discard pile. Necros: Gain 2 Combat.</text>
 			<faction>Necros</faction>
 			<cost>1</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>3</setqty>
@@ -563,7 +563,7 @@
 			<text>Expend: Gain 3 Combat. Necros: Draw a card.</text>
 			<faction>Necros</faction>
 			<cost>4</cost>
-			<defense guard="0" />
+			<defense guard="0">4</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -579,7 +579,7 @@
 			<text>Gain 3 Gold. Sacrifice: Gain 3 Combat.</text>
 			<faction>Necros</faction>
 			<cost>2</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>3</setqty>
@@ -596,7 +596,7 @@
 			<text>Expend: Gain 3 Combat. You may sacrifice a card in your hand or discard pile. If you do, gain an additional 3 Combat.</text>
 			<faction>Necros</faction>
 			<cost>7</cost>
-			<defense guard="0" />
+			<defense guard="0">6</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -613,7 +613,7 @@
 			<text>Gain 8 Combat. You may sacrifice a card in your hand or discard pile. Necros: Draw a card.</text>
 			<faction>Necros</faction>
 			<cost>6</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -647,7 +647,7 @@
 			<text>Gain 4 Combat. You may sacrifice a card in your hand or discard pile. Necros: Gain 3 Combat.</text>
 			<faction>Necros</faction>
 			<cost>3</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>2</setqty>
@@ -681,7 +681,7 @@
 			<text>Expend: Take a champion from your discard pile and put it on top of your deck. Necros: Draw a card.</text>
 			<faction>Necros</faction>
 			<cost>5</cost>
-			<defense guard="0" />
+			<defense guard="0">3</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -698,7 +698,7 @@
 			<text>Expend: Gain 2 Gold. Wild: Target opponent discards a card.</text>
 			<faction>Wild</faction>
 			<cost>4</cost>
-			<defense guard="0" />
+			<defense guard="0">6</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -715,7 +715,7 @@
 			<text>Expend: Gain 5 Combat. Wild: Draw a card.</text>
 			<faction>Wild</faction>
 			<cost>6</cost>
-			<defense guard="0" />
+			<defense guard="0">6</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -749,7 +749,7 @@
 			<text>Gain 6 Combat. Target opponent discards a card. Wild: Gain 3 Combat.</text>
 			<faction>Wild</faction>
 			<cost>3</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>2</setqty>
@@ -766,7 +766,7 @@
 			<text>Gain 2 Gold. You may draw a card. If you do, discard a card. Wild: Gain 4 Combat.</text>
 			<faction>Wild</faction>
 			<cost>2</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>3</setqty>
@@ -799,7 +799,7 @@
 			<text>Gain 4 Gold. Wild: Target opponent discards a card. Sacrifice: Gain 4 Combat.</text>
 			<faction>Wild</faction>
 			<cost>4</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -833,7 +833,7 @@
 			<text>Gain 6 Combat. You may draw up to two cards, then discard that many cards.</text>
 			<faction>Wild</faction>
 			<cost>6</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -867,7 +867,7 @@
 			<text>Gain 3 Combat. Target opponent discards a card. Wild: Gain 2 Combat.</text>
 			<faction>Wild</faction>
 			<cost>1</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>3</setqty>
@@ -884,7 +884,7 @@
 			<text>Gain 8 Combat. Target opponent discards a card. Sacrifice: Target opponent discards a card.</text>
 			<faction>Wild</faction>
 			<cost>5</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>1</setqty>
@@ -901,7 +901,7 @@
 			<text>Expend: Gain 2 Combat. +1 Combat for each other Wild card you have in play.</text>
 			<faction>Wild</faction>
 			<cost>2</cost>
-			<defense guard="0" />
+			<defense guard="0">4</defense>
 			<level />
 			<role>Market Deck</role>
 			<setqty>2</setqty>
@@ -919,7 +919,7 @@
 			<text>Gain 2 Gold. Sacrifice: Gain 3 Combat.</text>
 			<faction />
 			<cost>2</cost>
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Fire Gems</role>
 			<setqty>16</setqty>
@@ -937,7 +937,7 @@
 			<text>Gain 1 Gold.</text>
 			<faction />
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Starting Deck</role>
 			<setqty>28</setqty>
@@ -955,7 +955,7 @@
 			<text>Gain 2 Combat.</text>
 			<faction />
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Starting Deck</role>
 			<setqty>4</setqty>
@@ -973,7 +973,7 @@
 			<text>Gain 1 Combat.</text>
 			<faction />
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Starting Deck</role>
 			<setqty>4</setqty>
@@ -991,7 +991,7 @@
 			<text>Gain 2 Gold.</text>
 			<faction />
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Starting Deck</role>
 			<setqty>4</setqty>
@@ -1007,7 +1007,7 @@
 			<text />
 			<faction>Blue</faction>
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Scorecard</role>
 			<setqty>1</setqty>
@@ -1023,7 +1023,7 @@
 			<text />
 			<faction>Green</faction>
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Scorecard</role>
 			<setqty>1</setqty>
@@ -1039,7 +1039,7 @@
 			<text />
 			<faction>Red</faction>
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Scorecard</role>
 			<setqty>1</setqty>
@@ -1055,7 +1055,7 @@
 			<text />
 			<faction>Yellow</faction>
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Scorecard</role>
 			<setqty>1</setqty>
@@ -1071,7 +1071,7 @@
 			<text />
 			<faction>Blue</faction>
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Scorecard</role>
 			<setqty>1</setqty>
@@ -1087,7 +1087,7 @@
 			<text />
 			<faction>Green</faction>
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Scorecard</role>
 			<setqty>1</setqty>
@@ -1103,7 +1103,7 @@
 			<text />
 			<faction>Red</faction>
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Scorecard</role>
 			<setqty>1</setqty>
@@ -1119,7 +1119,7 @@
 			<text />
 			<faction>Yellow</faction>
 			<cost />
-			<defense guard="0" />
+			<defense guard="0">None</defense>
 			<level />
 			<role>Scorecard</role>
 			<setqty>1</setqty>

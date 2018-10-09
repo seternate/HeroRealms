@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -17,6 +16,7 @@ import com.seternate.herorealms.Main;
 public class MenuScreen implements Screen {
     final Main game;
     Stage stage;
+    CardScreen cardScreen;
 
     Skin skin;
     Image background, logo;
@@ -27,6 +27,7 @@ public class MenuScreen implements Screen {
     public MenuScreen(final Main game) {
         stage = new Stage();
         this.game = game;
+        cardScreen = new CardScreen(game);
 
         skin = new Skin(Gdx.files.internal("skins/plain-james/plain-james-ui.json"));
 
@@ -45,7 +46,7 @@ public class MenuScreen implements Screen {
         cards_btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.add(new CardScreen(game)));
+                game.setScreen(game.screenManager.add(cardScreen));
             }
         });
         cards_btn.getLabel().setFontScale(1.8f);
@@ -111,6 +112,7 @@ public class MenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 }

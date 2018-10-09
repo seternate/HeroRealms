@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -24,9 +25,12 @@ public class CardScreen implements Screen {
     Image background, card_image;
     TextButton back_btn;
 
+    Table layout;
+
 
     public CardScreen(final Main game){
         this.game = game;
+        game.screenManager.add(new CardDetailScreen(game));
         stage = new Stage();
 
         skin = new Skin(Gdx.files.internal("skins/plain-james/plain-james-ui.json"));
@@ -42,44 +46,57 @@ public class CardScreen implements Screen {
                 game.setScreen(game.screenManager.get(MenuScreen.class));
             }
         });
-        back_btn.getLabel().setFontScale(1.8f);
+        back_btn.getLabel().setFontScale(1.5f);
 
 
         Table table = new Table();
-        for(int i = 0; i < game.xml.getChild(0).getChildrenByName("card").size; i++) {
+        table.padTop(Gdx.graphics.getHeight()/50);
+        table.padBottom(Gdx.graphics.getHeight()/50);
+        Cell cell;
+        int cardNumber = game.xml.getChild(0).getChildrenByName("card").size - 8;
+        for(int i = 0; i < cardNumber; i++) {
             card_image = new Image(game.assetManager.manager.get("cards/" + game.xml.getChild(0).getChildrenByName("card").get(i).getChild(0).getChild(0).getText(), Texture.class));
-            table.add(card_image).pad(Gdx.graphics.getHeight()/50).width(Gdx.graphics.getWidth()/4).height(Gdx.graphics.getWidth()/4/card_image.getWidth()*card_image.getHeight());
+            final XmlReader.Element card = game.xml.getChild(0).getChildrenByName("card").get(i);
+            card_image.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    game.setScreen(((CardDetailScreen)game.screenManager.get(CardDetailScreen.class)).setCard(card));
+                }
+            });
+            cell = table.add(card_image).width(Gdx.graphics.getWidth()/5f).height(Gdx.graphics.getWidth()/5f/card_image.getWidth()*card_image.getHeight()).expandX();
             if((i+1)%3 == 0) {
                 table.row();
             }
+            if(i >= 0 && i < 3) {
+                cell.padBottom(Gdx.graphics.getHeight()/50);
+            } else if(i >= cardNumber - (cardNumber%3) && i < cardNumber) {
+                cell.padTop(Gdx.graphics.getHeight()/50);
+            } else {
+                cell.padBottom(Gdx.graphics.getHeight()/50);
+                cell.padTop(Gdx.graphics.getHeight()/50);
+            }
         }
         table.setSize(table.getColumns()*card_image.getWidth(), table.getRows()*card_image.getHeight());
-        //table.pad(Gdx.graphics.getHeight()/50, 0,Gdx.graphics.getHeight()/50, 0);
         scrollPane = new ScrollPane(table);
 
 
-        Table layout = new Table();
+        layout = new Table();
         layout.setFillParent(true);
-        layout.add().expandX();
-        layout.add(scrollPane).expandY();
-        layout.add(back_btn).expandX().right().bottom();
+        layout.add(scrollPane).expand().fill();
+        layout.add(back_btn).bottom();
         stage.addActor(layout);
     }
+
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
     }
 
-    public void update(float delta) {
-
-    }
-
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        update(delta);
         stage.act();
         stage.draw();
     }
@@ -106,6 +123,7 @@ public class CardScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 }
