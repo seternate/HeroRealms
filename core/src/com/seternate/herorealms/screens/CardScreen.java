@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -13,84 +14,94 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
 import com.seternate.herorealms.Main;
 
 public class CardScreen implements Screen {
     final Main game;
     Stage stage;
+    MenuScreen menuScreen;
     ScrollPane scrollPane;
 
     Skin skin;
-    Image background, card_image;
-    TextButton back_btn;
+    Image cardImage;
+    TextButton backButton;
+    Table layoutTable, imageTable;
 
-    Table layout;
+    Vector2 vImageTableImageSize;
+    float fFontScale, fImageTablePad;
+    int cardNumber;
 
 
     public CardScreen(final Main game){
         this.game = game;
-        game.screenManager.add(new CardDetailScreen(game));
         stage = new Stage();
-
-        skin = new Skin(Gdx.files.internal("skins/plain-james/plain-james-ui.json"));
-
-        background = new Image(game.assetManager.manager.get("background.jpg", Texture.class));
-        background.setPosition((Gdx.graphics.getWidth() - background.getWidth())/2, -(background.getHeight() - Gdx.graphics.getHeight()));
-        stage.addActor(background);
-
-        back_btn = new TextButton("Back", skin);
-        back_btn.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.get(MenuScreen.class));
-            }
-        });
-        back_btn.getLabel().setFontScale(1.5f);
+        menuScreen = (MenuScreen)game.screenManager.get(MenuScreen.class);
+        skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
+        backButton = new TextButton("Back", skin);
+        cardImage = new Image(game.assetManager.manager.get("cards/" + game.xml.getChild(0).getChildrenByName("card").get(0).getChild(0).getChild(0).getText(), Texture.class));
+        imageTable = new Table();
+        layoutTable = new Table();
+        scrollPane = new ScrollPane(imageTable);
 
 
-        Table table = new Table();
-        table.padTop(Gdx.graphics.getHeight()/50);
-        table.padBottom(Gdx.graphics.getHeight()/50);
-        Cell cell;
-        int cardNumber = game.xml.getChild(0).getChildrenByName("card").size - 8;
+        vImageTableImageSize = new Vector2(Gdx.graphics.getWidth()*0.2f, cardImage.getHeight()*(Gdx.graphics.getWidth()/cardImage.getWidth())*0.2f);
+        fFontScale = Gdx.graphics.getHeight()/ backButton.getHeight()*0.07f;
+        fImageTablePad = Gdx.graphics.getHeight()/50;
+        //Subtract the 8 'Score Cards'
+        cardNumber = game.xml.getChild(0).getChildrenByName("card").size - 8;
+
+
+        backButton.getLabel().setFontScale(fFontScale);
+
+
+        //Create a Table with 3 columns
         for(int i = 0; i < cardNumber; i++) {
-            card_image = new Image(game.assetManager.manager.get("cards/" + game.xml.getChild(0).getChildrenByName("card").get(i).getChild(0).getChild(0).getText(), Texture.class));
-            final XmlReader.Element card = game.xml.getChild(0).getChildrenByName("card").get(i);
-            card_image.addListener(new ClickListener() {
+            final Element card = game.xml.getChild(0).getChildrenByName("card").get(i);
+            cardImage = new Image(game.assetManager.manager.get("cards/" + card.getChild(0).getChild(0).getText(), Texture.class));
+            cardImage.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     game.setScreen(((CardDetailScreen)game.screenManager.get(CardDetailScreen.class)).setCard(card));
                 }
             });
-            cell = table.add(card_image).width(Gdx.graphics.getWidth()/5f).height(Gdx.graphics.getWidth()/5f/card_image.getWidth()*card_image.getHeight()).expandX();
+            Cell cell = imageTable.add(cardImage).width(vImageTableImageSize.x).height(vImageTableImageSize.y).expandX();
             if((i+1)%3 == 0) {
-                table.row();
+                imageTable.row();
             }
             if(i >= 0 && i < 3) {
-                cell.padBottom(Gdx.graphics.getHeight()/50);
+                cell.padBottom(fImageTablePad);
             } else if(i >= cardNumber - (cardNumber%3) && i < cardNumber) {
-                cell.padTop(Gdx.graphics.getHeight()/50);
+                cell.padTop(fImageTablePad);
             } else {
-                cell.padBottom(Gdx.graphics.getHeight()/50);
-                cell.padTop(Gdx.graphics.getHeight()/50);
+                cell.padBottom(fImageTablePad);
+                cell.padTop(fImageTablePad);
             }
         }
-        table.setSize(table.getColumns()*card_image.getWidth(), table.getRows()*card_image.getHeight());
-        scrollPane = new ScrollPane(table);
+        imageTable.padTop(fImageTablePad);
+        imageTable.padBottom(fImageTablePad);
+        imageTable.setSize(imageTable.getColumns()*cardImage.getWidth(), imageTable.getRows()*cardImage.getHeight());
 
 
-        layout = new Table();
-        layout.setFillParent(true);
-        layout.add(scrollPane).expand().fill();
-        layout.add(back_btn).bottom();
-        stage.addActor(layout);
+        layoutTable.setFillParent(true);
+        layoutTable.add(scrollPane).expand().fill();
+        layoutTable.add(backButton).bottom();
+
+
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(game.screenManager.get(MenuScreen.class));
+            }
+        });
     }
 
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        stage.addActor(menuScreen.backgroundImage);
+        stage.addActor(layoutTable);
     }
 
     @Override
@@ -118,12 +129,11 @@ public class CardScreen implements Screen {
 
     @Override
     public void hide() {
-
+        stage.clear();
     }
 
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 }

@@ -32,8 +32,10 @@ public class SplashScreen implements Screen {
         game.xml = xmlReader.parse(Gdx.files.internal("data.xml"));
         game.assetManager.manager.load("HeroRealmsLogo.png", Texture.class);
         game.assetManager.manager.load("background.jpg", Texture.class);
+        game.assetManager.manager.load("skins/plain-james/plain-james-ui.json", Skin.class);
         while(!game.assetManager.manager.update());
-        skin = new Skin(Gdx.files.internal("skins/plain-james/plain-james-ui.json"));
+
+        skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
         loadLabel = new Label("Loading...", skin, "white-big");
         logoImage = new Image(game.assetManager.manager.get("HeroRealmsLogo.png", Texture.class));
 
@@ -60,8 +62,13 @@ public class SplashScreen implements Screen {
 
 
         if(game.assetManager.manager.update()) {
-            menuScreen = new MenuScreen(game);
-            game.setScreen(game.screenManager.add(menuScreen));
+            game.screenManager.add(new MenuScreen(game));
+            game.screenManager.add(new LobbyScreen(game));
+            game.screenManager.add(new CardScreen(game));
+            game.screenManager.add(new SettingScreen(game));
+            game.screenManager.add(new CardDetailScreen(game));
+
+            game.setScreen(game.screenManager.get(MenuScreen.class));
         }
 
         if(time > 0.5) {
@@ -110,6 +117,5 @@ public class SplashScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-        skin.dispose();
     }
 }
