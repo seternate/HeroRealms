@@ -79,7 +79,6 @@ public class SplashScreen implements Screen {
 
         if(game.assetManager.manager.update()) {
             MenuScreen.newMenuScreen(game);
-            LobbyScreen.newLobbyScreen(game);
             CardScreen.newCardScreen(game);
             SettingScreen.newSettingScreen(game);
             CardDetailScreen.newCardDetailScreen(game);

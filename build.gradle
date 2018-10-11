@@ -82,6 +82,8 @@ project(":core") {
     dependencies {
         implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
         implementation "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile "com.esotericsoftware:kryonet:2.22.0-RC1"
+        compile 'org.json:json:20171018'
 
     }
 }

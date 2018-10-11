@@ -17,6 +17,7 @@ public class Main extends Game {
 	@Override
 	public void create () {
 		player = Player.load();
+
 		screenManager.push(SplashScreen.newSplashScreen(this));
 		this.setScreen(SplashScreen.getSplashScreen());
 	}
