@@ -13,6 +13,18 @@ import com.badlogic.gdx.utils.XmlReader;
 import com.seternate.herorealms.Main;
 
 public class SplashScreen implements Screen {
+    private static SplashScreen splashScreen = null;
+
+    public static SplashScreen getSplashScreen() {
+        return splashScreen;
+    }
+
+    public static SplashScreen newSplashScreen(final Main game) {
+        if(splashScreen == null) splashScreen = new SplashScreen(game);
+        return splashScreen;
+    }
+
+
     final Main game;
     Stage stage;
     MenuScreen menuScreen;
@@ -25,11 +37,15 @@ public class SplashScreen implements Screen {
     float fLoadLabelScale, time = 0;
 
 
-    public SplashScreen(final Main game) {
+    private SplashScreen() {
+        game = null;
+    }
+
+    private SplashScreen(final Main game) {
         this.game = game;
         stage = new Stage();
         XmlReader xmlReader = new XmlReader();
-        game.xml = xmlReader.parse(Gdx.files.internal("data.xml"));
+        game.gameDataXML = xmlReader.parse(Gdx.files.internal("data.xml"));
         game.assetManager.manager.load("HeroRealmsLogo.png", Texture.class);
         game.assetManager.manager.load("background.jpg", Texture.class);
         game.assetManager.manager.load("skins/plain-james/plain-james-ui.json", Skin.class);
@@ -62,13 +78,13 @@ public class SplashScreen implements Screen {
 
 
         if(game.assetManager.manager.update()) {
-            game.screenManager.add(new MenuScreen(game));
-            game.screenManager.add(new LobbyScreen(game));
-            game.screenManager.add(new CardScreen(game));
-            game.screenManager.add(new SettingScreen(game));
-            game.screenManager.add(new CardDetailScreen(game));
+            MenuScreen.newMenuScreen(game);
+            LobbyScreen.newLobbyScreen(game);
+            CardScreen.newCardScreen(game);
+            SettingScreen.newSettingScreen(game);
+            CardDetailScreen.newCardDetailScreen(game);
 
-            game.setScreen(game.screenManager.get(MenuScreen.class));
+            game.setScreen(game.screenManager.push(MenuScreen.getMenuScreen()));
         }
 
         if(time > 0.5) {

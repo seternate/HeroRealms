@@ -7,11 +7,27 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.seternate.herorealms.Main;
 
 public class LobbyScreen implements Screen {
+    private static LobbyScreen lobbyScreen = null;
+
+    public static LobbyScreen getLobbyScreen() {
+        return lobbyScreen;
+    }
+
+    public static LobbyScreen newLobbyScreen(final Main game) {
+        if(lobbyScreen == null) lobbyScreen = new LobbyScreen(game);
+        return lobbyScreen;
+    }
+
+
     final Main game;
     Stage stage;
 
 
-    public LobbyScreen(final Main game) {
+    private LobbyScreen() {
+        game = null;
+    }
+
+    private LobbyScreen(final Main game) {
         this.game = game;
         stage = new Stage();
     }

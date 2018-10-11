@@ -2,24 +2,23 @@ package com.seternate.herorealms.managers;
 
 import com.badlogic.gdx.Screen;
 
-import java.util.ArrayList;
+import java.util.Stack;
 
 
 public class ScreenManager<T extends Screen> {
-    final ArrayList <T> screens = new ArrayList<T>();
+    final Stack<T> screenStack = new Stack<T>();
 
-    public T add(T screen) {
-        for(T s : screens) {
-            if(screen.getClass() == s.getClass()) return s;
-        }
-        screens.add(screen);
-        return screen;
+
+    public T push(T screen) {
+        return screenStack.push(screen);
     }
 
-    public T get(Class<T> screenClass) {
-        for(T s : screens) {
-            if(s.getClass() == screenClass) return s;
-        }
-        return null;
+    public T pop() {
+        screenStack.pop();
+        return screenStack.peek();
+    }
+
+    public T peek() {
+        return screenStack.peek();
     }
 }

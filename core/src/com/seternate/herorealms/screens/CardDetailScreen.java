@@ -2,11 +2,8 @@ package com.seternate.herorealms.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -20,6 +17,18 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 import com.seternate.herorealms.Main;
 
 public class CardDetailScreen implements Screen {
+    private static CardDetailScreen cardDetailScreen = null;
+
+    public static CardDetailScreen getCardDetailScreen() {
+        return cardDetailScreen;
+    }
+
+    public static CardDetailScreen newCardDetailScreen(final Main game) {
+        if(cardDetailScreen == null) cardDetailScreen = new CardDetailScreen(game);
+        return cardDetailScreen;
+    }
+
+
     final Main game;
     Stage stage;
     Element card;
@@ -32,10 +41,14 @@ public class CardDetailScreen implements Screen {
     TextButton back_btn;
 
 
-    public CardDetailScreen(final Main game) {
+    private CardDetailScreen() {
+        game = null;
+    }
+
+    private CardDetailScreen(final Main game) {
         this.game = game;
         stage = new Stage();
-        card = game.xml.getChild(0).getChildrenByName("card").get(0);
+        card = game.gameDataXML.getChild(0).getChildrenByName("card").get(0);
         skin = new Skin(Gdx.files.internal("skins/plain-james/plain-james-ui.json"));
         detailsLabel = new Label[2][9];
 
@@ -47,7 +60,7 @@ public class CardDetailScreen implements Screen {
         back_btn.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.get(CardScreen.class));
+                game.setScreen(game.screenManager.pop());
             }
         });
         back_btn.getLabel().setFontScale(1.5f);

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -16,13 +15,22 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.seternate.herorealms.Main;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class SettingScreen implements Screen {
+    private static SettingScreen settingScreen = null;
+
+    public static SettingScreen getSettingScreen() {
+        return settingScreen;
+    }
+
+    public static SettingScreen newSettingScreen(final Main game) {
+        if(settingScreen == null) settingScreen = new SettingScreen(game);
+        return settingScreen;
+    }
+
+
     final Main game;
     Stage stage;
-    MenuScreen menuScreen;
 
     Skin skin;
     TextField.TextFieldStyle textFieldStyle;
@@ -33,10 +41,13 @@ public class SettingScreen implements Screen {
     float fFontScale, fTextFieldPad, fTablePad;
 
 
-    public SettingScreen(final Main game) {
+    private SettingScreen() {
+        game = null;
+    }
+
+    private SettingScreen(final Main game) {
         this.game = game;
         stage = new Stage();
-        menuScreen = (MenuScreen)game.screenManager.get(MenuScreen.class);
         skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
         backButton = new TextButton("Back", skin);
         enterButton = new TextButton("Enter", skin);
@@ -70,7 +81,7 @@ public class SettingScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.get(MenuScreen.class));
+                game.setScreen(game.screenManager.pop());
             }
         });
         enterButton.addListener(new ClickListener() {
@@ -78,7 +89,7 @@ public class SettingScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 game.player.setName(nameField.getText());
                 game.player.safe();
-                game.setScreen(game.screenManager.get(MenuScreen.class));
+                game.setScreen(game.screenManager.pop());
             }
         });
         nameField.addListener(new InputListener() {
@@ -88,7 +99,7 @@ public class SettingScreen implements Screen {
                     nameField.getOnscreenKeyboard().show(false);
                     game.player.setName(nameField.getText());
                     game.player.safe();
-                    game.setScreen(game.screenManager.get(MenuScreen.class));
+                    game.setScreen(game.screenManager.pop());
                     return true;
                 }
                 return false;
@@ -101,7 +112,7 @@ public class SettingScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(stage);
         nameField.setText(game.player.getName());
-        stage.addActor(menuScreen.backgroundImage);
+        stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
         stage.addActor(formTable);
     }
 

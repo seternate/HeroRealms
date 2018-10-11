@@ -14,7 +14,7 @@ public class MyAssetManager {
     }
 
     public void loadAssets() {
-        for(XmlReader.Element cards : game.xml.getChild(0).getChildrenByName("card")) {
+        for(XmlReader.Element cards : game.gameDataXML.getChild(0).getChildrenByName("card")) {
             for (XmlReader.Element image : cards.getChild(0).getChildrenByName("image")) {
                 manager.load("cards/" + image.getText(), Texture.class);
             }

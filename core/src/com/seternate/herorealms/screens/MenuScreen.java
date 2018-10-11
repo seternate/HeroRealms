@@ -15,6 +15,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.seternate.herorealms.Main;
 
 public class MenuScreen implements Screen {
+    private static MenuScreen menuScreen = null;
+
+    public static MenuScreen getMenuScreen() {
+        return menuScreen;
+    }
+
+    public static MenuScreen newMenuScreen(final Main game) {
+        if(menuScreen == null) menuScreen = new MenuScreen(game);
+        return menuScreen;
+    }
+
+
     final Main game;
     Stage stage;
 
@@ -27,7 +39,11 @@ public class MenuScreen implements Screen {
     float fFontScale;
 
 
-    public MenuScreen(final Main game) {
+    private MenuScreen() {
+        game = null;
+    }
+
+    private MenuScreen(final Main game) {
         this.game = game;
         stage = new Stage();
         skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
@@ -73,19 +89,19 @@ public class MenuScreen implements Screen {
         quickplayButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.get(LobbyScreen.class));
+                game.setScreen(game.screenManager.push(LobbyScreen.getLobbyScreen()));
             }
         });
         cardsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.get(CardScreen.class));
+                game.setScreen(game.screenManager.push(CardScreen.getCardScreen()));
             }
         });
         settingsButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.get(SettingScreen.class));
+                game.setScreen(game.screenManager.push(SettingScreen.getSettingScreen()));
             }
         });
     }

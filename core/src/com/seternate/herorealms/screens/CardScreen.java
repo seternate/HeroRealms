@@ -18,9 +18,20 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 import com.seternate.herorealms.Main;
 
 public class CardScreen implements Screen {
+    private static CardScreen cardScreen = null;
+
+    public static CardScreen getCardScreen() {
+        return cardScreen;
+    }
+
+    public static CardScreen newCardScreen(final Main game) {
+        if(cardScreen == null) cardScreen = new CardScreen(game);
+        return cardScreen;
+    }
+
+
     final Main game;
     Stage stage;
-    MenuScreen menuScreen;
     ScrollPane scrollPane;
 
     Skin skin;
@@ -33,13 +44,16 @@ public class CardScreen implements Screen {
     int cardNumber;
 
 
-    public CardScreen(final Main game){
+    private CardScreen() {
+        game = null;
+    }
+
+    private CardScreen(final Main game){
         this.game = game;
         stage = new Stage();
-        menuScreen = (MenuScreen)game.screenManager.get(MenuScreen.class);
         skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
         backButton = new TextButton("Back", skin);
-        cardImage = new Image(game.assetManager.manager.get("cards/" + game.xml.getChild(0).getChildrenByName("card").get(0).getChild(0).getChild(0).getText(), Texture.class));
+        cardImage = new Image(game.assetManager.manager.get("cards/" + game.gameDataXML.getChild(0).getChildrenByName("card").get(0).getChild(0).getChild(0).getText(), Texture.class));
         imageTable = new Table();
         layoutTable = new Table();
         scrollPane = new ScrollPane(imageTable);
@@ -49,7 +63,7 @@ public class CardScreen implements Screen {
         fFontScale = Gdx.graphics.getHeight()/ backButton.getHeight()*0.07f;
         fImageTablePad = Gdx.graphics.getHeight()/50;
         //Subtract the 8 'Score Cards'
-        cardNumber = game.xml.getChild(0).getChildrenByName("card").size - 8;
+        cardNumber = game.gameDataXML.getChild(0).getChildrenByName("card").size - 8;
 
 
         backButton.getLabel().setFontScale(fFontScale);
@@ -57,12 +71,12 @@ public class CardScreen implements Screen {
 
         //Create a Table with 3 columns
         for(int i = 0; i < cardNumber; i++) {
-            final Element card = game.xml.getChild(0).getChildrenByName("card").get(i);
+            final Element card = game.gameDataXML.getChild(0).getChildrenByName("card").get(i);
             cardImage = new Image(game.assetManager.manager.get("cards/" + card.getChild(0).getChild(0).getText(), Texture.class));
             cardImage.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    game.setScreen(((CardDetailScreen)game.screenManager.get(CardDetailScreen.class)).setCard(card));
+                    game.setScreen(game.screenManager.push(CardDetailScreen.getCardDetailScreen().setCard(card)));
                 }
             });
             Cell cell = imageTable.add(cardImage).width(vImageTableImageSize.x).height(vImageTableImageSize.y).expandX();
@@ -91,7 +105,7 @@ public class CardScreen implements Screen {
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.get(MenuScreen.class));
+                game.setScreen(game.screenManager.pop());
             }
         });
     }
@@ -100,7 +114,7 @@ public class CardScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        stage.addActor(menuScreen.backgroundImage);
+        stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
         stage.addActor(layoutTable);
     }
 
