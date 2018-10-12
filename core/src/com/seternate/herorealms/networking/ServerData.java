@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ServerData {
+    private Player serverOwner;
     private final HashMap<Integer, Player> players;
     private final Deck marketDeck;
     private final Deck startingDeck;
@@ -26,8 +27,9 @@ public class ServerData {
         players = new HashMap<Integer, Player>();
     }
 
-    public ServerData(Element gameDataXML) {
+    public ServerData(Element gameDataXML, Player serverOwner) {
         this();
+        this.serverOwner = serverOwner;
         for(Element cardXML : gameDataXML.getChild(0).getChildrenByName("card")) {
             Card card = new Card(cardXML);
             if(card.getCardRole() == CardRole.MARKET_DECK) marketDeck.add(card);
@@ -54,6 +56,7 @@ public class ServerData {
     }
 
 
-
-
+    public Player getServerOwner() {
+        return serverOwner;
+    }
 }

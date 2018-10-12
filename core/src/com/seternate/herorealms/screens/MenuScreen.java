@@ -89,7 +89,7 @@ public class MenuScreen implements Screen {
         quickplayButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                game.setScreen(game.screenManager.push(new LobbyScreen(game)));
+                game.setScreen(game.screenManager.push(new ServerBrowserScreen(game)));
             }
         });
         cardsButton.addListener(new ClickListener() {

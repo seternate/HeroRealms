@@ -1,17 +1,29 @@
 package com.seternate.herorealms.networking;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientData {
-    InetAddress address;
+    ServerData connectedServer;
+    private ArrayList<ServerData> availableServers;
 
-    public boolean setServerAddress(InetAddress address) {
-        if(address == null) return false;
-        this.address = address;
-        return true;
+    public ArrayList<ServerData> getAvailableServers() {
+        return availableServers;
     }
 
-    public InetAddress getServerAddress() {
-        return address;
+    public void setAvailableServers(ArrayList<ServerData> availableServers) {
+        this.availableServers = availableServers;
     }
+
+    public ClientData() {
+        availableServers = new ArrayList<ServerData>();
+    }
+
+
+    public void setServer(ServerData server) {
+        connectedServer = server;
+    }
+
+
 }
