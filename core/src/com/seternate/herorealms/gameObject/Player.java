@@ -1,9 +1,7 @@
-package com.seternate.herorealms.player;
+package com.seternate.herorealms.gameObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-
-import java.io.File;
 
 public class Player {
     public static final String STATS = "player";
@@ -16,7 +14,9 @@ public class Player {
 
 
     private String name;
+    private int networkID;
 
+    public Player() {}
 
     public Player(String name) {
         this.name = name;
@@ -36,4 +36,11 @@ public class Player {
         pref.flush();
     }
 
+    public void setNetworkID(int id) {
+        networkID = id;
+    }
+
+    public int getNetworkID() {
+        return networkID;
+    }
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.XmlReader.Element;
 import com.seternate.herorealms.managers.MyAssetManager;
 import com.seternate.herorealms.managers.ScreenManager;
-import com.seternate.herorealms.player.Player;
+import com.seternate.herorealms.gameObject.Player;
 import com.seternate.herorealms.screens.SplashScreen;
 
 public class Main extends Game {

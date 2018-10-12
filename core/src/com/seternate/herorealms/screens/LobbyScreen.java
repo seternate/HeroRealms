@@ -3,128 +3,199 @@ package com.seternate.herorealms.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
 import com.seternate.herorealms.Main;
-
-import org.json.JSONObject;
+import com.seternate.herorealms.gameObject.Card;
+import com.seternate.herorealms.gameObject.CardRole;
+import com.seternate.herorealms.gameObject.Deck;
+import com.seternate.herorealms.gameObject.Defense;
+import com.seternate.herorealms.gameObject.Faction;
+import com.seternate.herorealms.gameObject.Player;
+import com.seternate.herorealms.networking.ClientData;
+import com.seternate.herorealms.networking.NetworkConstants;
+import com.seternate.herorealms.networking.ServerData;
+import com.seternate.herorealms.networking.messages.ClientConnectMessage;
+import com.seternate.herorealms.networking.messages.ServerConnectMessage;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 public class LobbyScreen implements Screen {
-    private static LobbyScreen lobbyScreen = null;
-
-    public static LobbyScreen getLobbyScreen() {
-        return lobbyScreen;
-    }
-
-    public static LobbyScreen newLobbyScreen(final Main game) {
-        if(lobbyScreen == null) lobbyScreen = new LobbyScreen(game);
-        return lobbyScreen;
-    }
-
-
     final Main game;
     Stage stage;
     Server server;
+    ServerData serverData;
     Client client;
+    ClientData clientData;
 
-    TextButton sendMessage;
     Skin skin;
+    Label player1Label, player2Label, player3Label, player4Label;
+    Table layoutTable;
 
 
+    public LobbyScreen(final Main game){
+        this.game = game;
+        stage = new Stage();
+        //setting up networking
+        openClientAndOrServer();
+        skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
+        player1Label = new Label(game.player.getName(), skin, "white-big");
+        player2Label = new Label("", skin, "white-big");
+        player3Label = new Label("", skin, "white-big");
+        player4Label = new Label("", skin, "white-big");
+        layoutTable = new Table();
 
-    public void createCommunication() {
-        server = new Server();
+        layoutTable.setDebug(true);
+        layoutTable.setFillParent(true);
+        layoutTable.add(player1Label);
+        layoutTable.row();
+        layoutTable.add(player2Label);
+        layoutTable.row();
+        layoutTable.add(player3Label);
+        layoutTable.row();
+        layoutTable.add(player4Label);
+    }
+
+    public InetAddress searchForOpenServers() {
+        List<InetAddress> addresses = client.discoverHosts(NetworkConstants.UDP_PORT, 1000);
+        if(addresses.isEmpty()) return null;
+        for(InetAddress address : addresses) {
+            if(!address.getHostAddress().equals("127.0.0.1")) return address;
+        }
+        return null;
+    }
+
+    public void openServer() {
+        server = new Server(20000, 20000);
         server.start();
+        serverData = new ServerData(game.gameDataXML);
         try {
-            server.bind(9021, 9021);
+            server.bind(NetworkConstants.TCP_PORT, NetworkConstants.UDP_PORT);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //Register classes for networking
+        server.getKryo().register(ClientConnectMessage.class);
+        server.getKryo().register(ServerMessage.class);
+        server.getKryo().register(Player.class);
+        server.getKryo().register(ServerData.class);
+        server.getKryo().register(Deck.class);
+        server.getKryo().register(Card.class);
+        server.getKryo().register(HashMap.class);
+        server.getKryo().register(Defense.class);
+        server.getKryo().register(CardRole.class);
+        server.getKryo().register(Faction.class);
+        server.getKryo().register(String[].class);
+        server.getKryo().register(ArrayList.class);
+        addServerListener();
+    }
+
+    public void addServerListener() {
         server.addListener(new Listener() {
             @Override
             public void connected(Connection connection) {
-                System.out.println("Connected: " + connection.getID());
+                if(serverData.getPlayerNumber() >= 4) connection.close();
             }
 
             @Override
             public void received(Connection connection, Object object) {
-                if(object instanceof JSONObject) {
-                    JSONObject json = (JSONObject)object;
-                    System.out.println(json.get("name"));
+                if(object instanceof ClientConnectMessage) {
+                    Player player = ((ClientConnectMessage)object).getData();
+                    serverData.addPlayer(connection.getID(), player);
+                    server.sendToAllExceptTCP(connection.getID(), new ServerConnectMessage(serverData));
                 }
             }
         });
-        server.getKryo().register(HashMap.class);
-        server.getKryo().register(JSONObject.class);
-
-        client = new Client();
-        client.start();
-        List<InetAddress> adress = client.discoverHosts(9021, 1000);
-        for(InetAddress a : adress) {
-            System.out.println(a.getHostAddress());
-
-        }
-        /*try {
-            client.connect(5000, "192.168.0.164", 9021);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        client.getKryo().register(java.util.HashMap.class);
-        client.getKryo().register(JSONObject.class);
-
-
-        JSONObject json = new JSONObject();
-        json.put("name", "Levin");
-        client.sendTCP(json);*/
-
-
-
     }
 
-
-
-
-
-    private LobbyScreen() {
-        game = null;
-    }
-
-    private LobbyScreen(final Main game) {
-        this.game = game;
-        stage = new Stage();
-
-        createCommunication();
-
-        skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
-        sendMessage = new TextButton("Send Message", skin);
-        sendMessage.addListener(new ClickListener() {
+    public void openClientAndOrServer() {
+        new Thread() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
-                JSONObject json = new JSONObject();
-                json.put("name", "Message button");
-                client.sendTCP(json);
+            public void run() {
+                client = new Client(20000, 20000);
+                client.start();
+                //Register classes for networking
+                client.getKryo().register(ClientConnectMessage.class);
+                client.getKryo().register(ServerMessage.class);
+                client.getKryo().register(Player.class);
+                client.getKryo().register(ServerData.class);
+                client.getKryo().register(Deck.class);
+                client.getKryo().register(Card.class);
+                client.getKryo().register(HashMap.class);
+                client.getKryo().register(Defense.class);
+                client.getKryo().register(CardRole.class);
+                client.getKryo().register(Faction.class);
+                client.getKryo().register(String[].class);
+                client.getKryo().register(ArrayList.class);
+                //Add Listener
+                addClientListener();
+                clientData = new ClientData();
+                if(!clientData.setServerAddress(searchForOpenServers())) {
+                    openServer();
+                    clientData.setServerAddress(searchForOpenServers());
+                }
+                //Todo: if connection fails show user something
+                try {
+                    client.connect(NetworkConstants.C_TIMEOUT, clientData.getServerAddress(), NetworkConstants.TCP_PORT, NetworkConstants.UDP_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    public void addClientListener() {
+        client.addListener(new Listener() {
+            @Override
+            public void connected(Connection connection) {
+                game.player.setNetworkID(connection.getID());
+                client.sendTCP(new ClientConnectMessage(game.player));
+            }
+
+            @Override
+            public void received(Connection connection, Object object) {
+                if(object instanceof ServerConnectMessage) {
+                    ServerData serverData = ((ServerConnectMessage)object).getData();
+                    for(int i = 0; i < serverData.getPlayerNumber(); i++) {
+                        switch(i) {
+
+                        }
+                    }
+
+
+
+
+                        int i = 0;
+                        System.out.println(serverData.getPlayer().size());
+                        for(Player player : serverData.getPlayer()) {
+                            if(game.player.getNetworkID() == player.getNetworkID()) continue;
+                            if(i == 0) player2Label.setText(player.getName());
+                            if(i == 1) player3Label.setText(player.getName());
+                            if(i == 2) player4Label.setText(player.getName());
+                            i++;
+                        }
+                    }
+                }
             }
         });
     }
-
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        stage.addActor(sendMessage);
+        stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
+        stage.addActor(layoutTable);
     }
 
     @Override
@@ -153,10 +224,18 @@ public class LobbyScreen implements Screen {
     @Override
     public void hide() {
         stage.clear();
+        server.stop();
+        client.stop();
     }
 
     @Override
     public void dispose() {
-
+        stage.dispose();
+        try {
+            server.dispose();
+            client.dispose();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
