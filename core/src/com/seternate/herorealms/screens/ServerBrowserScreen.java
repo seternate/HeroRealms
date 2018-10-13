@@ -122,6 +122,7 @@ public class ServerBrowserScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
         stage.addActor(layoutTable);
     }
 
