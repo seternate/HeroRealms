@@ -28,51 +28,49 @@ public class ServerBrowserScreen implements Screen {
     Label serverOwnerNameLabel, serverConnectionsLabel;
     ArrayList<Label[]> serverLabels;
     Table layoutTable, serverTable, buttonTable;
-    TextButton backButton, newServerButton;
+    TextButton backButton, serverButton;
 
-    float fFontScale, fTablePad;
+    float fFontScale, fFontScaleServerTable, fTablePad;
 
 
     public ServerBrowserScreen(final Main game) {
         this.game = game;
         stage = new Stage();
         networkHelper = new NetworkHelper();
-        serverData = new ArrayList<ServerData>();
         serverLabels = new ArrayList<Label[]>();
         serverTable = new Table();
-        layoutTable = new Table();
         buttonTable = new Table();
+        layoutTable = new Table();
         skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
         serverOwnerNameLabel = new Label("Owner", skin, "white-big");
-        serverConnectionsLabel = new Label("Connections", skin, "white-big");
+        serverConnectionsLabel = new Label("Players", skin, "white-big");
         backButton = new TextButton("Back", skin);
-        newServerButton = new TextButton("Create Server", skin);
+        serverButton = new TextButton("Create Server", skin);
 
 
         fFontScale = CardScreen.getCardScreen().fFontScale;
+        fFontScaleServerTable = Gdx.graphics.getHeight()/backButton.getHeight()*0.25f;
         fTablePad = CardScreen.getCardScreen().fImageTablePad;
 
 
-        serverConnectionsLabel.setFontScale(fFontScale*1.2f);
-        serverOwnerNameLabel.setFontScale(fFontScale*1.2f);
+        serverConnectionsLabel.setFontScale(fFontScaleServerTable *1.2f);
+        serverOwnerNameLabel.setFontScale(fFontScaleServerTable *1.2f);
         backButton.getLabel().setFontScale(fFontScale);
-        newServerButton.getLabel().setFontScale(fFontScale);
+        serverButton.getLabel().setFontScale(fFontScale);
 
 
-        serverTable.setDebug(true);
         serverTable.left().top();
 
-        buttonTable.setDebug(true);
-        buttonTable.add(newServerButton).padRight(fTablePad);
+        buttonTable.add(serverButton).padRight(fTablePad);
         buttonTable.add(backButton);
 
         layoutTable.setFillParent(true);
-        layoutTable.setDebug(true);
         layoutTable.add(serverTable).expand().pad(fTablePad).fill();
         layoutTable.row();
         layoutTable.add(buttonTable).expandX().right();
 
-        newServerButton.addListener(new ClickListener() {
+
+        serverButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 networkHelper.startServer(game);
@@ -85,15 +83,15 @@ public class ServerBrowserScreen implements Screen {
             }
         });
 
+
         searchServers = new Thread() {
             @Override
             public void run() {
-                while(true) {
-                    serverData = networkHelper.searchAvailableServers();
+                while(!Thread.currentThread().isInterrupted()) {
+                    networkHelper.searchAvailableServers();
                 }
             }
         };
-        searchServers.start();
     }
 
     private void buildServerTable() {
@@ -102,13 +100,21 @@ public class ServerBrowserScreen implements Screen {
         serverTable.add(serverOwnerNameLabel).left().expandX();
         serverTable.add(serverConnectionsLabel).left();
         serverTable.row();
-        if(serverData != null) {
-            for (ServerData serverData : serverData) {
+        if(networkHelper.availableServers != null) {
+            for (ServerData serverData : networkHelper.availableServers) {
                 Label[] label = new Label[2];
                 label[0] = new Label(serverData.getServerOwner().getName(), skin, "white-big");
                 label[1] = new Label(Integer.toString(serverData.getPlayerNumber()) + "/4", skin, "white-big");
-                label[0].setFontScale(fFontScale);
-                label[1].setFontScale(fFontScale);
+                label[0].setFontScale(fFontScaleServerTable);
+                label[0].addListener(new ClickListener() {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        System.out.println("Lobbyscreen");
+                        game.setScreen(game.screenManager.push(new LobbyScreen(game, networkHelper)));
+                        //Todo: server connection
+                    }
+                });
+                label[1].setFontScale(fFontScaleServerTable);
                 serverLabels.add(label);
             }
             for (Label[] serverLabel : serverLabels) {
@@ -122,6 +128,7 @@ public class ServerBrowserScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        searchServers.start();
         stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
         stage.addActor(layoutTable);
     }
@@ -152,6 +159,7 @@ public class ServerBrowserScreen implements Screen {
 
     @Override
     public void hide() {
+        searchServers.interrupt();
         stage.clear();
     }
 

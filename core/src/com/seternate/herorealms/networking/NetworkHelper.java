@@ -16,13 +16,10 @@ import com.seternate.herorealms.networking.messages.ClientConnectMessage;
 import com.seternate.herorealms.networking.messages.ServerConnectMessage;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import sun.nio.ch.Net;
 
 public class NetworkHelper {
     public Client client;
@@ -38,17 +35,20 @@ public class NetworkHelper {
         clientData = new ClientData();
     }
 
-    public ArrayList<ServerData> searchAvailableServers() {
-        ArrayList<InetAddress> availableServers = new ArrayList<InetAddress>();
+    public void searchAvailableServers() {
+        final ArrayList<InetAddress> availableServers = new ArrayList<InetAddress>();
         List<InetAddress> allServers = client.discoverHosts(NetworkConstants.UDP_PORT, NetworkConstants.DH_TIMEOUT);
-        if(allServers.isEmpty()) return null;
+        final ArrayList<ServerData> serverData = new ArrayList<ServerData>();
+        ArrayList<Client> clients = new ArrayList<Client>();
+
+        if(allServers.isEmpty()) return;
+
         for(InetAddress server : allServers) {
             if(!server.getHostAddress().equals("127.0.0.1")) availableServers.add(server);
         }
-        if(availableServers.isEmpty()) return null;
 
-        final ArrayList<ServerData> serverData = new ArrayList<ServerData>();
-        ArrayList<Client> clients = new ArrayList<Client>();
+        if(availableServers.isEmpty()) return;
+
         for(InetAddress server : availableServers) {
             final NetworkHelper networkHelper = new NetworkHelper();
             networkHelper.client.start();
@@ -58,8 +58,8 @@ public class NetworkHelper {
                 public void received(Connection connection, Object object) {
                     if(object instanceof ServerData) {
                         serverData.add((ServerData)object);
-                        System.out.println("Got ServerData from Connection " + connection.getID());
                         connection.close();
+                        client.stop();
                     }
                 }
             });
@@ -69,10 +69,13 @@ public class NetworkHelper {
                 e.printStackTrace();
             }
         }
+
         for(Client client : clients) {
             while(client.isConnected());
         }
-        return serverData;
+
+        this.availableServers.clear();
+        for(ServerData data : serverData) this.availableServers.add(data);
     }
 
     public boolean startServer(Main game) {

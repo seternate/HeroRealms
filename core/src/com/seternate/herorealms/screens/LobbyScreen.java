@@ -4,35 +4,62 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryonet.Client;
-import com.esotericsoftware.kryonet.Connection;
-import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.kryonet.Server;
 import com.seternate.herorealms.Main;
-import com.seternate.herorealms.gameObject.Card;
-import com.seternate.herorealms.gameObject.CardRole;
-import com.seternate.herorealms.gameObject.Deck;
-import com.seternate.herorealms.gameObject.Defense;
-import com.seternate.herorealms.gameObject.Faction;
-import com.seternate.herorealms.gameObject.Player;
-import com.seternate.herorealms.networking.ClientData;
-import com.seternate.herorealms.networking.NetworkConstants;
-import com.seternate.herorealms.networking.ServerData;
-import com.seternate.herorealms.networking.messages.ClientConnectMessage;
-import com.seternate.herorealms.networking.messages.ServerConnectMessage;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.seternate.herorealms.networking.NetworkHelper;
 
 
-public class LobbyScreen {
+public class LobbyScreen implements Screen{
+    final Main game;
+    Stage stage;
+    NetworkHelper networkHelper;
+
+    public LobbyScreen(final Main game, NetworkHelper networkHelper) {
+        this.game = game;
+        stage = new Stage();
+        this.networkHelper = networkHelper;
+    }
+
+    @Override
+    public void show() {
+        Gdx.input.setInputProcessor(stage);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl20.glClearColor(0, 0 ,0 ,1);
+        Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        stage.act();
+        stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+
+    }
+
+    @Override
+    public void pause() {
+
+    }
+
+    @Override
+    public void resume() {
+
+    }
+
+    @Override
+    public void hide() {
+        stage.clear();
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+    }
+
+
+
+
     /*final Main game;
     Stage stage;
     Server server;
