@@ -29,6 +29,7 @@ public class NetworkHelper {
     public ClientData clientData;
     public Server server;
     public ServerData serverData;
+    public final ArrayList<ServerData> availableServers = new ArrayList<ServerData>();
 
 
     public NetworkHelper() {
@@ -37,7 +38,7 @@ public class NetworkHelper {
         clientData = new ClientData();
     }
 
-    public ArrayList<ServerData> getAvailableServers() {
+    public ArrayList<ServerData> searchAvailableServers() {
         ArrayList<InetAddress> availableServers = new ArrayList<InetAddress>();
         List<InetAddress> allServers = client.discoverHosts(NetworkConstants.UDP_PORT, NetworkConstants.DH_TIMEOUT);
         if(allServers.isEmpty()) return null;
