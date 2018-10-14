@@ -4,8 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.seternate.herorealms.Main;
 import com.seternate.herorealms.networking.NetworkHelper;
+
+import java.util.ArrayList;
 
 
 public class LobbyScreen implements Screen{
@@ -13,15 +17,30 @@ public class LobbyScreen implements Screen{
     Stage stage;
     NetworkHelper networkHelper;
 
+    Table layoutTable;
+    ArrayList<Label> playerLabels;
+
+
     public LobbyScreen(final Main game, NetworkHelper networkHelper) {
         this.game = game;
         stage = new Stage();
         this.networkHelper = networkHelper;
+        layoutTable = new Table();
+        playerLabels = new ArrayList<Label>();
+
+
+
+
+
+        layoutTable.setDebug(true);
+        layoutTable.setFillParent(true);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
+        stage.addActor(layoutTable);
     }
 
     @Override

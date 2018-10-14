@@ -13,6 +13,7 @@ import java.util.Map;
 
 public class ServerData {
     private Player serverOwner;
+    String serverIP;
     private final HashMap<Integer, Player> players;
     private final Deck marketDeck;
     private final Deck startingDeck;
@@ -55,6 +56,9 @@ public class ServerData {
         return players;
     }
 
+    public String getIPAddress() {
+        return serverIP;
+    }
 
     public Player getServerOwner() {
         return serverOwner;

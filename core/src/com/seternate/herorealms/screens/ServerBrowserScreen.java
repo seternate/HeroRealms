@@ -23,7 +23,6 @@ public class ServerBrowserScreen implements Screen {
     final Main game;
     Stage stage;
     NetworkHelper networkHelper;
-    ArrayList<ServerData> serverData;
 
     Thread searchServers;
 
@@ -69,9 +68,9 @@ public class ServerBrowserScreen implements Screen {
             label[0].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    System.out.println("Connect to Server from " + ((Label)event.getListenerActor()).getText());
-                    //game.setScreen(game.screenManager.push(new LobbyScreen(game, networkHelper)));
-                    //Todo: server connection
+                    //Todo: inform user about failed connection with popup, searchThread wont stop()
+                    if(!networkHelper.connect(((Label)event.getListenerActor()).getText().toString())) {System.out.println("Failed Server connection");return;}
+                    game.setScreen(game.screenManager.push(new LobbyScreen(game, networkHelper)));
                 }
             });
         }
@@ -121,14 +120,13 @@ public class ServerBrowserScreen implements Screen {
         searchServers = new Thread() {
             @Override
             public void run() {
-                while(!Thread.currentThread().isInterrupted()) {
+                while(!this.isInterrupted()) {
                     networkHelper.searchAvailableServers();
                 }
             }
         };
     }
 
-    //Todo: remove old entries
     private void updateServerTable() {
         for(Label[] label : serverLabels) {
             label[0].setText("");
@@ -177,6 +175,7 @@ public class ServerBrowserScreen implements Screen {
 
     @Override
     public void hide() {
+        System.out.println("interrupt search");
         searchServers.interrupt();
         stage.clear();
     }

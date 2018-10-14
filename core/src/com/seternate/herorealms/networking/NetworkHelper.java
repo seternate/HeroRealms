@@ -1,5 +1,6 @@
 package com.seternate.herorealms.networking;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
@@ -17,7 +18,11 @@ import com.seternate.herorealms.networking.messages.ServerConnectMessage;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,6 +40,7 @@ public class NetworkHelper {
         registerClass(client.getKryo());
         clientData = new ClientData();
         serverRunning = false;
+        client.start();
     }
 
     public void searchAvailableServers() {
@@ -81,16 +87,38 @@ public class NetworkHelper {
         for(ServerData data : serverData) this.availableServers.add(data);
     }
 
-    public void startServer(Main game) {
-        if(isServerRunning()) return;
+    public boolean connect(String owner) {
+        ArrayList<ServerData> servers = availableServers;
+        String ipAddress = null;
+        for(ServerData server : servers){
+            if(server.getServerOwner().getName().equals(owner)) ipAddress = server.getIPAddress();
+        }
+        if(ipAddress == null) return false;
+        try {
+            client.connect(NetworkConstants.C_TIMEOUT, ipAddress, NetworkConstants.TCP_PORT, NetworkConstants.UDP_PORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean startServer(Main game) {
+        if(isServerRunning()) return false;
         server = new Server(NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         server.start();
         serverData = new ServerData(game.gameDataXML, game.player);
         try {
+            serverData.serverIP = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            return false;
+        }
+        try {
             server.bind(NetworkConstants.TCP_PORT, NetworkConstants.UDP_PORT);
         } catch (IOException e) {
             e.printStackTrace();
-            return;
+            return false;
         }
         registerClass(server.getKryo());
 
@@ -111,6 +139,7 @@ public class NetworkHelper {
             }
         });
         serverRunning = true;
+        return true;
     }
 
     public void stopServer() {
