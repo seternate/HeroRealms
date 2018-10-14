@@ -27,12 +27,14 @@ public class NetworkHelper {
     public Server server;
     public ServerData serverData;
     public final ArrayList<ServerData> availableServers = new ArrayList<ServerData>();
+    private boolean serverRunning;
 
 
     public NetworkHelper() {
         client = new Client(NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         registerClass(client.getKryo());
         clientData = new ClientData();
+        serverRunning = false;
     }
 
     public void searchAvailableServers() {
@@ -60,6 +62,7 @@ public class NetworkHelper {
                         serverData.add((ServerData)object);
                         connection.close();
                         client.stop();
+                        client.close();
                     }
                 }
             });
@@ -78,7 +81,8 @@ public class NetworkHelper {
         for(ServerData data : serverData) this.availableServers.add(data);
     }
 
-    public boolean startServer(Main game) {
+    public void startServer(Main game) {
+        if(isServerRunning()) return;
         server = new Server(NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         server.start();
         serverData = new ServerData(game.gameDataXML, game.player);
@@ -86,7 +90,7 @@ public class NetworkHelper {
             server.bind(NetworkConstants.TCP_PORT, NetworkConstants.UDP_PORT);
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return;
         }
         registerClass(server.getKryo());
 
@@ -106,21 +110,22 @@ public class NetworkHelper {
                 }
             }
         });
-        return true;
+        serverRunning = true;
     }
 
+    public void stopServer() {
+        server.close();
+        serverRunning = false;
+    }
 
+    public void close() {
+        client.stop();
+        client.close();
+        stopServer();
+    }
 
-
-
-
-    public boolean isServer() {
-        List<InetAddress> addresses = client.discoverHosts(NetworkConstants.UDP_PORT, NetworkConstants.DH_TIMEOUT);
-        if(addresses.isEmpty()) return false;
-        for(InetAddress address : addresses) {
-            if(!address.getHostAddress().equals("127.0.0.1")) return true;
-        }
-        return false;
+    public boolean isServerRunning() {
+        return serverRunning;
     }
 
     private void registerClass(Kryo kryo) {
