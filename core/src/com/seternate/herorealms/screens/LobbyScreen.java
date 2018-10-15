@@ -3,9 +3,12 @@ package com.seternate.herorealms.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.seternate.herorealms.Main;
 import com.seternate.herorealms.networking.NetworkHelper;
 
@@ -16,9 +19,11 @@ public class LobbyScreen implements Screen{
     final Main game;
     Stage stage;
     NetworkHelper networkHelper;
+    boolean ready;
 
+    Skin skin;
     Table layoutTable;
-    ArrayList<Label> playerLabels;
+    Label[] playerLabels;
 
 
     public LobbyScreen(final Main game, NetworkHelper networkHelper) {
@@ -26,14 +31,30 @@ public class LobbyScreen implements Screen{
         stage = new Stage();
         this.networkHelper = networkHelper;
         layoutTable = new Table();
-        playerLabels = new ArrayList<Label>();
+        playerLabels = new Label[4];
+        skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
+        playerLabels[0] = new Label(game.player.getName(), skin, "white-big");
+        for(int i = 1; i < playerLabels.length; i++) playerLabels[i] = new Label("", skin, "white-big");
 
-
-
-
-
-        layoutTable.setDebug(true);
         layoutTable.setFillParent(true);
+        for(Label label : playerLabels) {
+            layoutTable.add(label);
+            layoutTable.row();
+        }
+
+
+        playerLabels[0].addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(ready) {
+                    ready = false;
+                    playerLabels[0].setColor(skin.getColor("white"));
+                } else {
+                    ready = true;
+                    playerLabels[0].setColor(skin.getColor("gray"));
+                }
+            }
+        });
     }
 
     @Override

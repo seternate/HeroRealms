@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -22,15 +23,16 @@ import java.util.ArrayList;
 public class ServerBrowserScreen implements Screen {
     final Main game;
     Stage stage;
+    Dialog dialog;
     NetworkHelper networkHelper;
 
-    Thread searchServers;
+    SearchServers searchServers;
 
     Skin skin;
-    Label serverOwnerNameLabel, serverConnectionsLabel;
+    Label serverOwnerNameLabel, serverConnectionsLabel, popupLabel;
     Label[][] serverLabels;
     Table layoutTable, serverTable, buttonTable;
-    TextButton backButton, serverButton;
+    TextButton backButton, serverButton, okButton;
 
     float fFontScale, fFontScaleServerTable, fTablePad;
 
@@ -44,11 +46,14 @@ public class ServerBrowserScreen implements Screen {
         layoutTable = new Table();
         serverLabels = new Label[5][2];
         skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
+        dialog = new Dialog("Failed to connect to server", skin);
         serverOwnerNameLabel = new Label("Owner", skin, "white-big");
         serverConnectionsLabel = new Label("Players", skin, "white-big");
+        popupLabel = new Label("Connecting to server failed!", skin, "white-big");
         backButton = new TextButton("Back", skin);
         String serverButtonText = networkHelper.isServerRunning() ? "Close Server" : "Create Server";
         serverButton = new TextButton(serverButtonText, skin);
+        okButton = new TextButton("Ok", skin);
 
 
         fFontScale = CardScreen.getCardScreen().fFontScale;
@@ -58,8 +63,10 @@ public class ServerBrowserScreen implements Screen {
 
         serverConnectionsLabel.setFontScale(fFontScaleServerTable *1.2f);
         serverOwnerNameLabel.setFontScale(fFontScaleServerTable *1.2f);
+        popupLabel.setFontScale(fFontScale);
         backButton.getLabel().setFontScale(fFontScale);
         serverButton.getLabel().setFontScale(fFontScale);
+        okButton.getLabel().setFontScale(fFontScale);
         for(Label[] label : serverLabels) {
             label[0] = new Label("", skin, "white-big");
             label[1] = new Label("", skin, "white-big");
@@ -69,11 +76,15 @@ public class ServerBrowserScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     //Todo: inform user about failed connection with popup, searchThread wont stop()
-                    if(!networkHelper.connect(((Label)event.getListenerActor()).getText().toString())) {System.out.println("Failed Server connection");return;}
+                    if(!networkHelper.connect(((Label)event.getListenerActor()).getText().toString())) {dialog.show(stage);return;}
                     game.setScreen(game.screenManager.push(new LobbyScreen(game, networkHelper)));
                 }
             });
         }
+
+
+        dialog.getContentTable().add(popupLabel).space(fTablePad);
+        dialog.getButtonTable().add(okButton).space(fTablePad);
 
 
         buttonTable.add(serverButton).padRight(fTablePad);
@@ -115,16 +126,15 @@ public class ServerBrowserScreen implements Screen {
                 game.setScreen(game.screenManager.pop());
             }
         });
-
-
-        searchServers = new Thread() {
+        okButton.addListener(new ClickListener() {
             @Override
-            public void run() {
-                while(!this.isInterrupted()) {
-                    networkHelper.searchAvailableServers();
-                }
+            public void clicked(InputEvent event, float x, float y) {
+                dialog.hide();
             }
-        };
+        });
+
+
+        searchServers = new SearchServers();
     }
 
     private void updateServerTable() {
@@ -175,13 +185,21 @@ public class ServerBrowserScreen implements Screen {
 
     @Override
     public void hide() {
-        System.out.println("interrupt search");
-        searchServers.interrupt();
+        searchServers.running = false;
         stage.clear();
     }
 
     @Override
     public void dispose() {
         stage.dispose();
+    }
+
+
+    public class SearchServers extends Thread {
+        public boolean running = true;
+        @Override
+        public void run() {
+            while(running) networkHelper.searchAvailableServers();
+        }
     }
 }
