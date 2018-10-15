@@ -8,8 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.esotericsoftware.kryonet.Listener;
 import com.seternate.herorealms.Main;
+import com.seternate.herorealms.gameObject.Player;
 import com.seternate.herorealms.networking.NetworkHelper;
 
 import java.util.ArrayList;
@@ -24,9 +27,12 @@ public class LobbyScreen implements Screen{
     Skin skin;
     Table layoutTable;
     Label[] playerLabels;
+    TextButton backButton, readyButton;
+
+    float fFontScale, fPadTable;
 
 
-    public LobbyScreen(final Main game, NetworkHelper networkHelper) {
+    public LobbyScreen(final Main game, final NetworkHelper networkHelper) {
         this.game = game;
         stage = new Stage();
         this.networkHelper = networkHelper;
@@ -35,12 +41,31 @@ public class LobbyScreen implements Screen{
         skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
         playerLabels[0] = new Label(game.player.getName(), skin, "white-big");
         for(int i = 1; i < playerLabels.length; i++) playerLabels[i] = new Label("", skin, "white-big");
+        readyButton = new TextButton("Ready", skin);
+        backButton = new TextButton("Back", skin);
+
+
+        fFontScale = CardScreen.getCardScreen().fFontScale;
+        fPadTable = Gdx.graphics.getHeight()/50;
+
+
+        for(Label label : playerLabels) {
+            label.setFontScale(fFontScale);
+        }
+        backButton.getLabel().setFontScale(fFontScale);
+        readyButton.getLabel().setFontScale(fFontScale);
+
 
         layoutTable.setFillParent(true);
-        for(Label label : playerLabels) {
-            layoutTable.add(label);
+        layoutTable.setDebug(true);
+        layoutTable.add(playerLabels[0]).colspan(2).expandY().bottom();
+        layoutTable.row();
+        for(int i = 1; i < playerLabels.length; i++) {
+            layoutTable.add(playerLabels[i]).colspan(2);
             layoutTable.row();
         }
+        layoutTable.add(readyButton).expandX().right().padRight(fPadTable).expandY().bottom();
+        layoutTable.add(backButton).bottom();
 
 
         playerLabels[0].addListener(new ClickListener() {
@@ -55,6 +80,39 @@ public class LobbyScreen implements Screen{
                 }
             }
         });
+        backButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                networkHelper.client.close();
+                game.setScreen(game.screenManager.pop());
+            }
+        });
+        readyButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if(ready) {
+                    ready = false;
+                    playerLabels[0].setColor(skin.getColor("white"));
+                } else {
+                    ready = true;
+                    playerLabels[0].setColor(skin.getColor("gray"));
+                }
+            }
+        });
+
+    }
+
+    public void updatePlayer() {
+        int i = 1;
+        for(int k = 1; k < playerLabels.length; k++) {
+            playerLabels[k].setText("");
+        }
+        for(Player player : networkHelper.serverData.getPlayer()) {
+            if(player.equals(game.player)) continue;
+            playerLabels[i].setText(player.getName());
+            i++;
+        }
+
     }
 
     @Override
@@ -68,6 +126,7 @@ public class LobbyScreen implements Screen{
     public void render(float delta) {
         Gdx.gl20.glClearColor(0, 0 ,0 ,1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        updatePlayer();
         stage.act();
         stage.draw();
     }
@@ -100,74 +159,7 @@ public class LobbyScreen implements Screen{
 
 
 
-    /*final Main game;
-    Stage stage;
-    Server server;
-    ServerData serverData;
-    Client client;
-    ClientData clientData;
-
-    Skin skin;
-    Label player1Label, player2Label, player3Label, player4Label;
-    Table layoutTable;
-
-
-    public LobbyScreen(final Main game){
-        this.game = game;
-        stage = new Stage();
-        //setting up networking
-        openClientAndOrServer();
-        skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
-        player1Label = new Label(game.player.getName(), skin, "white-big");
-        player2Label = new Label("", skin, "white-big");
-        player3Label = new Label("", skin, "white-big");
-        player4Label = new Label("", skin, "white-big");
-        layoutTable = new Table();
-
-        layoutTable.setDebug(true);
-        layoutTable.setFillParent(true);
-        layoutTable.add(player1Label);
-        layoutTable.row();
-        layoutTable.add(player2Label);
-        layoutTable.row();
-        layoutTable.add(player3Label);
-        layoutTable.row();
-        layoutTable.add(player4Label);
-    }
-
-    //Todo: if there is a server, check first if the server is full
-    private boolean isServer() {
-        List<InetAddress> addresses = client.discoverHosts(NetworkConstants.UDP_PORT, NetworkConstants.DH_TIMEOUT);
-        if(addresses.isEmpty()) return false;
-        for(InetAddress address : addresses) {
-            if(!address.getHostAddress().equals("127.0.0.1")) return true;
-        }
-        return false;
-    }
-
-    private InetAddress getServer() {
-        List<InetAddress> addresses = client.discoverHosts(NetworkConstants.UDP_PORT, NetworkConstants.DH_TIMEOUT);
-        if(addresses.isEmpty()) return null;
-        for(InetAddress address : addresses) {
-            if(!address.getHostAddress().equals("127.0.0.1")) return address;
-        }
-        return null;
-    }
-
-    private void register(Kryo kryo) {
-        kryo.register(ClientConnectMessage.class);
-        kryo.register(ServerConnectMessage.class);
-        kryo.register(Player.class);
-        kryo.register(ServerData.class);
-        kryo.register(Deck.class);
-        kryo.register(Card.class);
-        kryo.register(HashMap.class);
-        kryo.register(Defense.class);
-        kryo.register(CardRole.class);
-        kryo.register(Faction.class);
-        kryo.register(String[].class);
-        kryo.register(ArrayList.class);
-    }
+    /*
 
     public void openServer() {
         server = new Server(NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);

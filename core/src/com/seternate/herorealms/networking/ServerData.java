@@ -63,4 +63,8 @@ public class ServerData {
     public Player getServerOwner() {
         return serverOwner;
     }
+
+    public void removePlayerById(int id) {
+        players.remove(id);
+    }
 }

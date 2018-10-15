@@ -40,7 +40,7 @@ public class ServerBrowserScreen implements Screen {
     public ServerBrowserScreen(final Main game) {
         this.game = game;
         stage = new Stage();
-        networkHelper = new NetworkHelper();
+        networkHelper = new NetworkHelper(game);
         serverTable = new Table();
         buttonTable = new Table();
         layoutTable = new Table();
@@ -76,6 +76,7 @@ public class ServerBrowserScreen implements Screen {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     //Todo: inform user about failed connection with popup, searchThread wont stop()
+                    networkHelper.client.start();
                     if(!networkHelper.connect(((Label)event.getListenerActor()).getText().toString())) {dialog.show(stage);return;}
                     game.setScreen(game.screenManager.push(new LobbyScreen(game, networkHelper)));
                 }
@@ -113,7 +114,7 @@ public class ServerBrowserScreen implements Screen {
                     networkHelper.stopServer();
                     serverButton.setText("Create Server");
                 } else {
-                    networkHelper.startServer(game);
+                    networkHelper.startServer();
                     serverButton.setText("Close Server");
                 }
 
@@ -135,6 +136,7 @@ public class ServerBrowserScreen implements Screen {
 
 
         searchServers = new SearchServers();
+        searchServers.start();
     }
 
     private void updateServerTable() {
@@ -154,7 +156,7 @@ public class ServerBrowserScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        searchServers.start();
+        searchServers.startThread();
         stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
         stage.addActor(layoutTable);
     }
@@ -185,7 +187,7 @@ public class ServerBrowserScreen implements Screen {
 
     @Override
     public void hide() {
-        searchServers.running = false;
+        searchServers.killThread();
         stage.clear();
     }
 
@@ -196,10 +198,21 @@ public class ServerBrowserScreen implements Screen {
 
 
     public class SearchServers extends Thread {
-        public boolean running = true;
+        private volatile boolean running = false;
         @Override
         public void run() {
-            while(running) networkHelper.searchAvailableServers();
+            while(true){
+                if(running)networkHelper.searchAvailableServers();
+            }
+
+        }
+
+        public void startThread() {
+            running = true;
+        }
+
+        public void killThread() {
+            running = false;
         }
     }
 }

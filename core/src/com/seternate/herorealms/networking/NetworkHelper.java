@@ -27,20 +27,36 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NetworkHelper {
+    final Main game;
     public Client client;
     public ClientData clientData;
     public Server server;
-    public ServerData serverData;
-    public final ArrayList<ServerData> availableServers = new ArrayList<ServerData>();
+    public volatile ServerData serverData;
+    public volatile ArrayList<ServerData> availableServers = new ArrayList<ServerData>();
     private boolean serverRunning;
 
 
-    public NetworkHelper() {
+    public NetworkHelper(final Main game) {
+        this.game = game;
         client = new Client(NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         registerClass(client.getKryo());
         clientData = new ClientData();
         serverRunning = false;
         client.start();
+        client.addListener(new Listener() {
+            @Override
+            public void received(Connection connection, Object object) {
+                if(object instanceof ServerData) {
+                    clientData.connectedServer = (ServerData)object;
+                }
+            }
+
+            @Override
+            public void connected(Connection connection) {
+                game.player.setNetworkID(connection.getID());
+                client.sendTCP(new ClientConnectMessage(game.player));
+            }
+        });
     }
 
     public void searchAvailableServers() {
@@ -58,8 +74,7 @@ public class NetworkHelper {
         if(availableServers.isEmpty()) return;
 
         for(InetAddress server : availableServers) {
-            final NetworkHelper networkHelper = new NetworkHelper();
-            networkHelper.client.start();
+            final NetworkHelper networkHelper = new NetworkHelper(game);
             clients.add(networkHelper.client);
             networkHelper.client.addListener(new Listener() {
                 @Override
@@ -103,7 +118,7 @@ public class NetworkHelper {
         return true;
     }
 
-    public boolean startServer(Main game) {
+    public boolean startServer() {
         if(isServerRunning()) return false;
         server = new Server(NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         server.start();
@@ -125,8 +140,9 @@ public class NetworkHelper {
         server.addListener(new Listener() {
             @Override
             public void connected(Connection connection) {
-                //if(serverData.getPlayerNumber() >= 4) connection.close();
                 server.sendToTCP(connection.getID(), serverData);
+                if(serverData.getPlayerNumber() >= 4) connection.close();
+                System.out.println(serverData.getPlayerNumber());
             }
 
             @Override
@@ -136,6 +152,12 @@ public class NetworkHelper {
                     serverData.addPlayer(connection.getID(), player);
                     server.sendToAllTCP(new ServerConnectMessage(serverData));
                 }
+            }
+
+            @Override
+            public void disconnected(Connection connection) {
+                serverData.removePlayerById(connection.getID());
+                server.sendToAllTCP(new ServerConnectMessage(serverData));
             }
         });
         serverRunning = true;
