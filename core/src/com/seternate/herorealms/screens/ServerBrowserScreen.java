@@ -3,18 +3,17 @@ package com.seternate.herorealms.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.seternate.herorealms.Main;
+import com.seternate.herorealms.gameObject.ServerLabel;
+import com.seternate.herorealms.networking.MyServer;
 import com.seternate.herorealms.networking.NetworkHelper;
 import com.seternate.herorealms.networking.ServerData;
 
@@ -24,13 +23,12 @@ public class ServerBrowserScreen implements Screen {
     final Main game;
     Stage stage;
     Dialog dialog;
-    NetworkHelper networkHelper;
+    MyServer server;
 
-    SearchServers searchServers;
 
     Skin skin;
-    Label serverOwnerNameLabel, serverConnectionsLabel, popupLabel;
-    Label[][] serverLabels;
+    Label serverNameLabel, serverPlayerLabel, dialogLabel;
+    ServerLabel[][] serverLabels;
     Table layoutTable, serverTable, buttonTable;
     TextButton backButton, serverButton, okButton;
 
@@ -40,60 +38,56 @@ public class ServerBrowserScreen implements Screen {
     public ServerBrowserScreen(final Main game) {
         this.game = game;
         stage = new Stage();
-        networkHelper = new NetworkHelper(game);
+        server = new MyServer(game.gameDataXML, game.player);
+        skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
+        serverNameLabel = new Label("Owner", skin, "white-big");
+        serverPlayerLabel = new Label("Players", skin, "white-big");
+        serverLabels = new ServerLabel[5][2];
+        backButton = new TextButton("Back", skin);
+        serverButton = new TextButton("Create Server", skin);
         serverTable = new Table();
         buttonTable = new Table();
         layoutTable = new Table();
-        serverLabels = new Label[5][2];
-        skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
-        dialog = new Dialog("Failed to connect to server", skin);
-        serverOwnerNameLabel = new Label("Owner", skin, "white-big");
-        serverConnectionsLabel = new Label("Players", skin, "white-big");
-        popupLabel = new Label("Connecting to server failed!", skin, "white-big");
-        backButton = new TextButton("Back", skin);
-        String serverButtonText = networkHelper.isServerRunning() ? "Close Server" : "Create Server";
-        serverButton = new TextButton(serverButtonText, skin);
+
+        dialog = new Dialog("Failed connection", skin);
+        dialogLabel = new Label("Connecting to server failed!", skin, "white-big");
         okButton = new TextButton("Ok", skin);
 
 
         fFontScale = CardScreen.getCardScreen().fFontScale;
-        fFontScaleServerTable = Gdx.graphics.getHeight()/serverOwnerNameLabel.getHeight()*0.125f;
+        fFontScaleServerTable = Gdx.graphics.getHeight()/ serverNameLabel.getHeight()*0.125f;
         fTablePad = CardScreen.getCardScreen().fImageTablePad;
 
 
-        serverConnectionsLabel.setFontScale(fFontScaleServerTable *1.2f);
-        serverOwnerNameLabel.setFontScale(fFontScaleServerTable *1.2f);
-        popupLabel.setFontScale(fFontScale);
+        serverPlayerLabel.setFontScale(fFontScaleServerTable *1.2f);
+        serverNameLabel.setFontScale(fFontScaleServerTable *1.2f);
+        dialogLabel.setFontScale(fFontScale);
         backButton.getLabel().setFontScale(fFontScale);
         serverButton.getLabel().setFontScale(fFontScale);
         okButton.getLabel().setFontScale(fFontScale);
         for(Label[] label : serverLabels) {
-            label[0] = new Label("", skin, "white-big");
-            label[1] = new Label("", skin, "white-big");
+            label[0] = new ServerLabel("", skin, "white-big");
+            label[1] = new ServerLabel("", skin, "white-big");
             label[0].setFontScale(fFontScaleServerTable);
             label[1].setFontScale(fFontScaleServerTable);
             label[0].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    //Todo: inform user about failed connection with popup, searchThread wont stop()
-                    networkHelper.client.start();
-                    if(!networkHelper.connect(((Label)event.getListenerActor()).getText().toString())) {dialog.show(stage);return;}
-                    game.setScreen(game.screenManager.push(new LobbyScreen(game, networkHelper)));
+                    game.setScreen(game.screenManager.push(new LobbyScreen(game, ((ServerLabel)event.getListenerActor()).getIPAddress())));
                 }
             });
         }
 
 
-        dialog.getContentTable().add(popupLabel).space(fTablePad);
+        dialog.getContentTable().add(dialogLabel).space(fTablePad);
         dialog.getButtonTable().add(okButton).space(fTablePad);
-
 
         buttonTable.add(serverButton).padRight(fTablePad);
         buttonTable.add(backButton);
 
         serverTable.left().top();
-        serverTable.add(serverOwnerNameLabel).left().expandX();
-        serverTable.add(serverConnectionsLabel).left();
+        serverTable.add(serverNameLabel).left().expandX();
+        serverTable.add(serverPlayerLabel).left();
         serverTable.row();
         for(Label[] label : serverLabels) {
             serverTable.add(label[0]).left();
@@ -110,20 +104,19 @@ public class ServerBrowserScreen implements Screen {
         serverButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(networkHelper.isServerRunning()) {
-                    networkHelper.stopServer();
+                if(server.isRunning()) {
+                    server.stop();
                     serverButton.setText("Create Server");
-                } else {
-                    networkHelper.startServer();
-                    serverButton.setText("Close Server");
+                    return;
                 }
-
+                server.start();
+                serverButton.setText("Close Server");
             }
         });
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                networkHelper.close();
+                server.stop();
                 game.setScreen(game.screenManager.pop());
             }
         });
@@ -133,10 +126,6 @@ public class ServerBrowserScreen implements Screen {
                 dialog.hide();
             }
         });
-
-
-        searchServers = new SearchServers();
-        searchServers.start();
     }
 
     private void updateServerTable() {
@@ -144,19 +133,17 @@ public class ServerBrowserScreen implements Screen {
             label[0].setText("");
             label[1].setText("");
         }
-        if(networkHelper.availableServers != null) {
-            ArrayList<ServerData> data = networkHelper.availableServers;
-            for(int i = 0; i < serverLabels.length && i < data.size(); i++) {
-                serverLabels[i][0].setText(data.get(i).getServerOwner().getName());
-                serverLabels[i][1].setText(Integer.toString(data.get(i).getPlayerNumber()) + "/4");
-            }
+        ArrayList<ServerData> data = NetworkHelper.getAvailableServers();
+        for(int i = 0; i < serverLabels.length && i < data.size(); i++) {
+            serverLabels[i][0].setText(data.get(i));
+            serverLabels[i][1].setText(Integer.toString(data.get(i).getPlayerNumber()) + "/4");
         }
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        searchServers.startThread();
+        NetworkHelper.searchServers(true);
         stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
         stage.addActor(layoutTable);
     }
@@ -187,32 +174,12 @@ public class ServerBrowserScreen implements Screen {
 
     @Override
     public void hide() {
-        searchServers.killThread();
         stage.clear();
+        NetworkHelper.searchServers(false);
     }
 
     @Override
     public void dispose() {
         stage.dispose();
-    }
-
-
-    public class SearchServers extends Thread {
-        private volatile boolean running = false;
-        @Override
-        public void run() {
-            while(true){
-                if(running)networkHelper.searchAvailableServers();
-            }
-
-        }
-
-        public void startThread() {
-            running = true;
-        }
-
-        public void killThread() {
-            running = false;
-        }
     }
 }

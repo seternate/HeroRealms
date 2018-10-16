@@ -1,6 +1,6 @@
 package com.seternate.herorealms.networking.messages;
 
-import com.seternate.herorealms.gameObject.Player;
+import com.seternate.herorealms.networking.ClientData;
 
 public class ClientConnectMessage extends ClientMessage{
     public static final String NEW_PLAYER = "newplayer";
@@ -8,8 +8,7 @@ public class ClientConnectMessage extends ClientMessage{
 
     public ClientConnectMessage() {}
 
-    public ClientConnectMessage(Player player) {
-        super.player = player;
-        super.message = ClientConnectMessage.NEW_PLAYER;
+    public ClientConnectMessage(ClientData data) {
+        super(ClientConnectMessage.NEW_PLAYER, data);
     }
 }

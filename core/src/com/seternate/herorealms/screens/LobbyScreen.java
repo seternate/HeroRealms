@@ -10,19 +10,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.seternate.herorealms.Main;
-import com.seternate.herorealms.gameObject.Player;
-import com.seternate.herorealms.networking.NetworkHelper;
+import com.seternate.herorealms.networking.MyClient;
+import com.seternate.herorealms.networking.ServerData;
+import com.seternate.herorealms.networking.messages.ClientConnectMessage;
 
-import java.util.ArrayList;
-
-
+/*
+    Todo: Implement clientlistener and serverlistener
+ */
 public class LobbyScreen implements Screen{
     final Main game;
     Stage stage;
-    NetworkHelper networkHelper;
+    MyClient client;
+
+
+
+
     boolean ready;
+
 
     Skin skin;
     Table layoutTable;
@@ -32,17 +39,39 @@ public class LobbyScreen implements Screen{
     float fFontScale, fPadTable;
 
 
-    public LobbyScreen(final Main game, final NetworkHelper networkHelper) {
+
+
+
+
+    public LobbyScreen(final Main game, String ipAddress) {
         this.game = game;
         stage = new Stage();
-        this.networkHelper = networkHelper;
+        client = new MyClient(game.player);
         layoutTable = new Table();
         playerLabels = new Label[4];
         skin = game.assetManager.manager.get("skins/plain-james/plain-james-ui.json", Skin.class);
-        playerLabels[0] = new Label(game.player.getName(), skin, "white-big");
-        for(int i = 1; i < playerLabels.length; i++) playerLabels[i] = new Label("", skin, "white-big");
         readyButton = new TextButton("Ready", skin);
         backButton = new TextButton("Back", skin);
+        playerLabels[0] = new Label(game.player.getName(), skin, "white-big");
+        for(int i = 1; i < playerLabels.length; i++) playerLabels[i] = new Label("", skin, "white-big");
+
+        client.addListener(new Listener() {
+            @Override
+            public void connected(Connection connection) {
+                client.setID(connection.getID());
+                client.sendTCP(new ClientConnectMessage(client.getData()));
+            }
+            @Override
+            public void received(Connection connection, Object object) {
+                if(object instanceof ServerData) {
+                    ServerData data = (ServerData)object;
+                    client.updateServerData(data);
+                    updateUI();
+                }
+            }
+        });
+        client.start();
+        client.connect(ipAddress);
 
 
         fFontScale = CardScreen.getCardScreen().fFontScale;
@@ -71,46 +100,32 @@ public class LobbyScreen implements Screen{
         playerLabels[0].addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(ready) {
-                    ready = false;
-                    playerLabels[0].setColor(skin.getColor("white"));
-                } else {
-                    ready = true;
-                    playerLabels[0].setColor(skin.getColor("gray"));
-                }
+
             }
         });
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                networkHelper.client.close();
-                game.setScreen(game.screenManager.pop());
+
             }
         });
         readyButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(ready) {
-                    ready = false;
-                    playerLabels[0].setColor(skin.getColor("white"));
-                } else {
-                    ready = true;
-                    playerLabels[0].setColor(skin.getColor("gray"));
-                }
+
             }
         });
 
     }
 
-    public void updatePlayer() {
-        int i = 1;
-        for(int k = 1; k < playerLabels.length; k++) {
-            playerLabels[k].setText("");
+    private void updateUI() {
+        for(Label playerLabel : playerLabels) {
+            playerLabel.setText("");
         }
-        for(Player player : networkHelper.serverData.getPlayer()) {
-            if(player.equals(game.player)) continue;
-            playerLabels[i].setText(player.getName());
-            i++;
+        playerLabels[0].setText(game.player.getName());
+        for(int i = 0; i < playerLabels.length && i < client.getServerData().getPlayers().size(); i++) {
+            if(client.getServerData().getPlayers().get(i).networkID == client.getID()) {i++;continue;}
+            playerLabels[i].setText(client.getServerData().getPlayers().get(i).getPlayer().getName());
         }
 
     }
@@ -126,7 +141,6 @@ public class LobbyScreen implements Screen{
     public void render(float delta) {
         Gdx.gl20.glClearColor(0, 0 ,0 ,1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        updatePlayer();
         stage.act();
         stage.draw();
     }

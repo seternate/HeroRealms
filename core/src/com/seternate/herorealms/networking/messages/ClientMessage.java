@@ -1,22 +1,22 @@
 package com.seternate.herorealms.networking.messages;
 
-import com.seternate.herorealms.gameObject.Player;
+import com.seternate.herorealms.networking.ClientData;
 
-public class ClientMessage implements Message<Player> {
+public class ClientMessage implements Message<ClientData> {
     String message;
-    Player player;
+    ClientData data;
 
 
     public ClientMessage() {}
 
-    public ClientMessage(String message, Player player) {
+    public ClientMessage(String message, ClientData data) {
         this.message = message;
-        this.player = player;
+        this.data = data;
     }
 
     @Override
-    public Player getData() {
-        return player;
+    public ClientData getData() {
+        return data;
     }
 
     @Override

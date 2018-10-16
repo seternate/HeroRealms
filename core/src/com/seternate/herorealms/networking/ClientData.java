@@ -1,29 +1,29 @@
 package com.seternate.herorealms.networking;
 
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.List;
+import com.seternate.herorealms.gameObject.Player;
 
 public class ClientData {
-    ServerData connectedServer;
-    private ArrayList<ServerData> availableServers;
+    private ServerData server;
+    public int networkID;
+    private Player player;
 
-    public ArrayList<ServerData> getAvailableServers() {
-        return availableServers;
+
+    public ClientData(){}
+
+    public ClientData(Player player) {
+        this.player = player;
     }
 
-    public void setAvailableServers(ArrayList<ServerData> availableServers) {
-        this.availableServers = availableServers;
+    public void setServerData(ServerData server) {
+        this.server = server;
     }
 
-    public ClientData() {
-        availableServers = new ArrayList<ServerData>();
+    public ServerData getServerData() {
+        return server;
     }
 
-
-    public void setServer(ServerData server) {
-        connectedServer = server;
+    public Player getPlayer() {
+        return player;
     }
-
 
 }

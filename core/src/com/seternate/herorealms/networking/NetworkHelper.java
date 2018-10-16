@@ -1,33 +1,82 @@
 package com.seternate.herorealms.networking;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
-import com.esotericsoftware.kryonet.Server;
-import com.seternate.herorealms.Main;
-import com.seternate.herorealms.gameObject.Card;
-import com.seternate.herorealms.gameObject.CardRole;
-import com.seternate.herorealms.gameObject.Deck;
-import com.seternate.herorealms.gameObject.Defense;
-import com.seternate.herorealms.gameObject.Faction;
-import com.seternate.herorealms.gameObject.Player;
-import com.seternate.herorealms.networking.messages.ClientConnectMessage;
-import com.seternate.herorealms.networking.messages.ServerConnectMessage;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 public class NetworkHelper {
-    final Main game;
+    private static boolean searchServer = false;
+    private static volatile ArrayList<ServerData> availableServers = new ArrayList<ServerData>();
+
+    private static Thread searchServerThread = new Thread() {
+        @Override
+        public void run() {
+            while(searchServer) {
+                Client client = new MyClient();
+                ArrayList<InetAddress> servers = new ArrayList<InetAddress>();
+                final ArrayList<ServerData> data = new ArrayList<ServerData>();
+                ArrayList<Client> helperClients = new ArrayList<Client>();
+                List<InetAddress> allServers = client.discoverHosts(NetworkConstants.UDP_PORT, NetworkConstants.DH_TIMEOUT);
+
+                if(allServers.isEmpty()) continue;
+
+                for(InetAddress server : allServers) {
+                    if(!server.getHostAddress().equals("127.0.0.1")) servers.add(server);
+                }
+
+                if(servers.isEmpty()) continue;
+
+                for(InetAddress server : servers) {
+                    final Client helperClient = new MyClient();
+                    helperClients.add(helperClient);
+                    helperClient.addListener(new Listener() {
+                        @Override
+                        public void received(Connection connection, Object object) {
+                            if(object instanceof ServerData) {
+                                data.add((ServerData)object);
+                                connection.close();
+                                helperClient.close();
+                            }
+                        }
+                    });
+                    helperClient.start();
+                    try {
+                        helperClient.connect(NetworkConstants.C_TIMEOUT, server.getHostAddress(), NetworkConstants.TCP_PORT, NetworkConstants.UDP_PORT);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                for(Client helperClient : helperClients) while(helperClient.isConnected());
+                availableServers.clear();
+                for(ServerData d : data) availableServers.add(d);
+            }
+        }
+    };
+
+    public static void searchServers(boolean running) {
+        if(!searchServerThread.isAlive() && !searchServer) {
+            searchServerThread.start();
+        }
+        searchServer = running;
+    }
+
+    public static ArrayList<ServerData> getAvailableServers() {
+        return availableServers;
+    }
+
+
+
+
+
+
+
+    /*final Main game;
     public Client client;
     public ClientData clientData;
     public Server server;
@@ -82,8 +131,8 @@ public class NetworkHelper {
                     if(object instanceof ServerData) {
                         serverData.add((ServerData)object);
                         connection.close();
-                        client.stop();
-                        client.close();
+                        networkHelper.client.stop();
+                        networkHelper.client.close();
                     }
                 }
             });
@@ -192,6 +241,6 @@ public class NetworkHelper {
         kryo.register(Faction.class);
         kryo.register(String[].class);
         kryo.register(ArrayList.class);
-    }
+    }*/
 
 }

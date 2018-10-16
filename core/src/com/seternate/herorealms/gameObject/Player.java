@@ -14,7 +14,7 @@ public class Player {
 
 
     private String name;
-    private int networkID;
+
 
     public Player() {}
 
@@ -34,13 +34,5 @@ public class Player {
         Preferences pref = Gdx.app.getPreferences(Player.STATS);
         pref.putString("name", name);
         pref.flush();
-    }
-
-    public void setNetworkID(int id) {
-        networkID = id;
-    }
-
-    public int getNetworkID() {
-        return networkID;
     }
 }

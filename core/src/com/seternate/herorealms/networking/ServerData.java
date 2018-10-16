@@ -4,17 +4,14 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 import com.seternate.herorealms.gameObject.Card;
 import com.seternate.herorealms.gameObject.CardRole;
 import com.seternate.herorealms.gameObject.Deck;
-import com.seternate.herorealms.gameObject.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ServerData {
-    private Player serverOwner;
-    String serverIP;
-    private final HashMap<Integer, Player> players;
+    private String serverIP;
+    private String owner;
+    private final HashMap<Integer, ClientData> players;
     private final Deck marketDeck;
     private final Deck startingDeck;
     private final Deck fireGems;
@@ -25,12 +22,13 @@ public class ServerData {
         startingDeck = new Deck();
         fireGems = new Deck();
         scoreCards = new Deck();
-        players = new HashMap<Integer, Player>();
+        players = new HashMap<Integer, ClientData>();
     }
 
-    public ServerData(Element gameDataXML, Player serverOwner) {
+    public ServerData(Element gameDataXML, String serverIP, String owner) {
         this();
-        this.serverOwner = serverOwner;
+        this.serverIP = serverIP;
+        this.owner = owner;
         for(Element cardXML : gameDataXML.getChild(0).getChildrenByName("card")) {
             Card card = new Card(cardXML);
             if(card.getCardRole() == CardRole.MARKET_DECK) marketDeck.add(card);
@@ -40,31 +38,27 @@ public class ServerData {
         }
     }
 
-    public void addPlayer(int id, Player player) {
-        players.put(id, player);
-    }
-
     public int getPlayerNumber() {
         return players.size();
-    }
-
-    public List<Player> getPlayer() {
-        ArrayList<Player> players = new ArrayList<Player>();
-        for(Map.Entry player : this.players.entrySet()) {
-            players.add((Player)player.getValue());
-        }
-        return players;
     }
 
     public String getIPAddress() {
         return serverIP;
     }
 
-    public Player getServerOwner() {
-        return serverOwner;
+    public String getOwner() {
+        return owner;
     }
 
-    public void removePlayerById(int id) {
-        players.remove(id);
+    public void addPlayer(ClientData player) {
+        players.put(player.networkID, player);
+    }
+
+    public ArrayList<ClientData> getPlayers() {
+        ArrayList<ClientData> data = new ArrayList<ClientData>();
+        for(ClientData player : players.values()) {
+            data.add(player);
+        }
+        return data;
     }
 }
