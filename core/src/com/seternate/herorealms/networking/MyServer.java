@@ -44,7 +44,8 @@ public final class MyServer extends Server {
                 if(object instanceof ClientConnectMessage) {
                     ClientData player = ((ClientConnectMessage)object).getData();
                     data.addPlayer(player);
-                    sendToAllExceptTCP(connection.getID(), data);
+                    System.out.println(data.getPlayerNumber());
+                    sendToAllTCP(data);
                 }
             }
         });

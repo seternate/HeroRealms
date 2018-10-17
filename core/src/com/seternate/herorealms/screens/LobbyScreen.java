@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.seternate.herorealms.Main;
+import com.seternate.herorealms.networking.ClientData;
 import com.seternate.herorealms.networking.MyClient;
 import com.seternate.herorealms.networking.ServerData;
 import com.seternate.herorealms.networking.messages.ClientConnectMessage;
@@ -106,7 +107,9 @@ public class LobbyScreen implements Screen{
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
+                client.stop();
+                client.close();
+                game.setScreen(game.screenManager.pop());
             }
         });
         readyButton.addListener(new ClickListener() {
@@ -119,15 +122,19 @@ public class LobbyScreen implements Screen{
     }
 
     private void updateUI() {
+        System.out.println("Updated UI.");
+        if(client.getServerData() == null) return;
         for(Label playerLabel : playerLabels) {
             playerLabel.setText("");
         }
         playerLabels[0].setText(game.player.getName());
-        for(int i = 0; i < playerLabels.length && i < client.getServerData().getPlayers().size(); i++) {
-            if(client.getServerData().getPlayers().get(i).networkID == client.getID()) {i++;continue;}
-            playerLabels[i].setText(client.getServerData().getPlayers().get(i).getPlayer().getName());
+        int i = 1;
+        for(ClientData clientData : client.getServerData().getPlayers()) {
+            if(!(clientData.networkID == client.getID())) {
+                playerLabels[i].setText(clientData.getPlayer().getName());
+                i++;
+            }
         }
-
     }
 
     @Override
@@ -141,6 +148,7 @@ public class LobbyScreen implements Screen{
     public void render(float delta) {
         Gdx.gl20.glClearColor(0, 0 ,0 ,1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //updateUI();
         stage.act();
         stage.draw();
     }
