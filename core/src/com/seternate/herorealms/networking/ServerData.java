@@ -4,13 +4,14 @@ import com.badlogic.gdx.utils.XmlReader.Element;
 import com.seternate.herorealms.gameObject.Card;
 import com.seternate.herorealms.gameObject.CardRole;
 import com.seternate.herorealms.gameObject.Deck;
+import com.seternate.herorealms.gameObject.Player;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ServerData {
     private String serverIP;
-    private String owner;
+    private Player owner;
     private final HashMap<Integer, ClientData> players;
     private final Deck marketDeck;
     private final Deck startingDeck;
@@ -25,7 +26,7 @@ public class ServerData {
         players = new HashMap<Integer, ClientData>();
     }
 
-    public ServerData(Element gameDataXML, String serverIP, String owner) {
+    public ServerData(Element gameDataXML, String serverIP, Player owner) {
         this();
         this.serverIP = serverIP;
         this.owner = owner;
@@ -47,7 +48,11 @@ public class ServerData {
     }
 
     public String getOwner() {
-        return owner;
+        return owner.getName();
+    }
+
+    public boolean isOwner(Player player) {
+        return owner.equals(player);
     }
 
     public void addPlayer(ClientData player) {
@@ -60,5 +65,9 @@ public class ServerData {
             data.add(player);
         }
         return data;
+    }
+
+    public ClientData removePlayer(int connectionID) {
+        return players.remove(connectionID);
     }
 }

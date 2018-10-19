@@ -17,6 +17,7 @@ import com.seternate.herorealms.networking.MyServer;
 import com.seternate.herorealms.networking.NetworkHelper;
 import com.seternate.herorealms.networking.ServerData;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ServerBrowserScreen implements Screen {
@@ -73,7 +74,11 @@ public class ServerBrowserScreen implements Screen {
             label[0].addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    game.setScreen(game.screenManager.push(new LobbyScreen(game, ((ServerLabel)event.getListenerActor()).getIPAddress())));
+                    try{
+                        game.setScreen(game.screenManager.push(new LobbyScreen(game, ((ServerLabel)event.getListenerActor()).getIPAddress())));
+                    }catch(IOException e) {
+                        dialog.show(stage);
+                    }
                 }
             });
         }
@@ -143,6 +148,10 @@ public class ServerBrowserScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        for(Label[] label : serverLabels) {
+            label[0].setText("");
+            label[1].setText("");
+        }
         NetworkHelper.searchServers(true);
         stage.addActor(MenuScreen.getMenuScreen().backgroundImage);
         stage.addActor(layoutTable);

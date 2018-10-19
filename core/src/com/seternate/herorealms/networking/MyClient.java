@@ -46,12 +46,8 @@ public final class MyClient extends Client {
         kryo.register(ClientData.class);
     }
 
-    public void connect(String ipAddress) {
-        try {
-            super.connect(NetworkConstants.C_TIMEOUT, ipAddress, NetworkConstants.TCP_PORT, NetworkConstants.UDP_PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void connect(String ipAddress) throws IOException {
+        super.connect(NetworkConstants.C_TIMEOUT, ipAddress, NetworkConstants.TCP_PORT, NetworkConstants.UDP_PORT);
     }
 
     public void setID(int id) {

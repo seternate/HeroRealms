@@ -28,7 +28,7 @@ public final class MyServer extends Server {
         super(NetworkConstants.WRITE_BUFFER_SIZE, NetworkConstants.OBJECT_BUFFER_SIZE);
         registerClass(this.getKryo());
         try {
-            data = new ServerData(gameDataXML, InetAddress.getLocalHost().getHostAddress(), player.getName());
+            data = new ServerData(gameDataXML, InetAddress.getLocalHost().getHostAddress(), player);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,11 @@ public final class MyServer extends Server {
                 sendToTCP(connection.getID(), data);
                 if(data.getPlayerNumber() >= 4) connection.close();
             }
-
+            @Override
+            public void disconnected(Connection connection) {
+                data.removePlayer(connection.getID());
+                sendToAllTCP(data);
+            }
             @Override
             public void received(Connection connection, Object object) {
                 if(object instanceof ClientConnectMessage) {

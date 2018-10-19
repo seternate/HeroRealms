@@ -3,6 +3,8 @@ package com.seternate.herorealms.gameObject;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import java.util.Random;
+
 public class Player {
     public static final String STATS = "player";
 
@@ -14,11 +16,13 @@ public class Player {
 
 
     private String name;
+    private int id;
 
 
     public Player() {}
 
     public Player(String name) {
+        id = new Random().nextInt();
         this.name = name;
     }
 
@@ -34,5 +38,17 @@ public class Player {
         Preferences pref = Gdx.app.getPreferences(Player.STATS);
         pref.putString("name", name);
         pref.flush();
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof Player && ((Player) o).id == this.id){
+            return true;
+        }
+        return false;
     }
 }
