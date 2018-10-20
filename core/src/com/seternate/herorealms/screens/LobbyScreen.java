@@ -15,8 +15,10 @@ import com.esotericsoftware.kryonet.Listener;
 import com.seternate.herorealms.Main;
 import com.seternate.herorealms.networking.ClientData;
 import com.seternate.herorealms.networking.MyClient;
+import com.seternate.herorealms.networking.MyServer;
 import com.seternate.herorealms.networking.ServerData;
 import com.seternate.herorealms.networking.messages.ClientConnectMessage;
+import com.seternate.herorealms.networking.messages.ClientMessage;
 
 import java.io.IOException;
 
@@ -90,6 +92,7 @@ public class LobbyScreen implements Screen{
         startButton.getLabel().setFontScale(fFontScale);
         backButton.getLabel().setFontScale(fFontScale);
         readyButton.getLabel().setFontScale(fFontScale);
+        startButton.setDisabled(false);
 
 
         layoutTable.setFillParent(true);
@@ -100,17 +103,13 @@ public class LobbyScreen implements Screen{
             layoutTable.add(playerLabels[i]).colspan(2);
             layoutTable.row();
         }
-        //Todo: add Startbutton for client with server
+        if(MyServer.server.isRunning()) {
+            layoutTable.add(startButton).bottom();
+        }
         layoutTable.add(readyButton).expandX().right().padRight(fPadTable).expandY().bottom();
         layoutTable.add(backButton).bottom();
 
 
-        playerLabels[0].addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-
-            }
-        });
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -123,14 +122,21 @@ public class LobbyScreen implements Screen{
             public void clicked(InputEvent event, float x, float y) {
                 if(client.getData().isReady()){
                     client.getData().setReady(false);
+                    client.sendTCP(new ClientMessage("player_unready", client.getData()));
                     readyButton.setText("Ready");
                 }else {
                     client.getData().setReady(true);
+                    client.sendTCP(new ClientMessage("player_ready", client.getData()));
                     readyButton.setText("Cancel");
                 }
             }
         });
-
+        startButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("starting game");
+            }
+        });
     }
 
     private void updateUI() {
@@ -145,6 +151,13 @@ public class LobbyScreen implements Screen{
                 playerLabels[i].setText(clientData.getPlayer().getName());
                 i++;
             }
+        }
+        if(client.getServerData().allReady()) {
+            startButton.setDisabled(false);
+            startButton.getLabel().setColor(skin.getColor("white"));
+        } else {
+            startButton.setDisabled(true);
+            startButton.getLabel().setColor(skin.getColor("gray"));
         }
     }
 

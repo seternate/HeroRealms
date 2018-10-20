@@ -7,7 +7,7 @@ public abstract class NetworkConstants {
     public static final int DH_TIMEOUT = 1000;
     //Connect timeout(millis)
     public static final int C_TIMEOUT = 5000;
-    public static final int WRITE_BUFFER_SIZE = 10000;
-    public static final int OBJECT_BUFFER_SIZE = 10000;
+    public static final int WRITE_BUFFER_SIZE = 64000;
+    public static final int OBJECT_BUFFER_SIZE = 64000;
 
 }

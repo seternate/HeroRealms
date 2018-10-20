@@ -9,6 +9,7 @@ import com.seternate.herorealms.gameObject.Defense;
 import com.seternate.herorealms.gameObject.Faction;
 import com.seternate.herorealms.gameObject.Player;
 import com.seternate.herorealms.networking.messages.ClientConnectMessage;
+import com.seternate.herorealms.networking.messages.ClientMessage;
 import com.seternate.herorealms.networking.messages.ServerConnectMessage;
 
 import java.io.IOException;
@@ -44,6 +45,7 @@ public final class MyClient extends Client {
         kryo.register(String[].class);
         kryo.register(ArrayList.class);
         kryo.register(ClientData.class);
+        kryo.register(ClientMessage.class);
     }
 
     public void connect(String ipAddress) throws IOException {

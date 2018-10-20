@@ -70,4 +70,15 @@ public class ServerData {
     public ClientData removePlayer(int connectionID) {
         return players.remove(connectionID);
     }
+
+    public boolean allReady() {
+        for(ClientData player : players.values()) {
+            if(!player.isReady()) return false;
+        }
+        return true;
+    }
+
+    public void updatePlayer(ClientData player) {
+        players.put(player.networkID, player);
+    }
 }

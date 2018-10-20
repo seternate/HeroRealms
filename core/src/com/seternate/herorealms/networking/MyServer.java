@@ -12,6 +12,7 @@ import com.seternate.herorealms.gameObject.Defense;
 import com.seternate.herorealms.gameObject.Faction;
 import com.seternate.herorealms.gameObject.Player;
 import com.seternate.herorealms.networking.messages.ClientConnectMessage;
+import com.seternate.herorealms.networking.messages.ClientMessage;
 import com.seternate.herorealms.networking.messages.ServerConnectMessage;
 
 import java.io.IOException;
@@ -21,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public final class MyServer extends Server {
+    public static MyServer server = null;
+
     private ServerData data;
     private boolean running;
 
@@ -48,12 +51,16 @@ public final class MyServer extends Server {
                 if(object instanceof ClientConnectMessage) {
                     ClientData player = ((ClientConnectMessage)object).getData();
                     data.addPlayer(player);
-                    System.out.println(data.getPlayerNumber());
+                    sendToAllTCP(data);
+                }else if(object instanceof ClientMessage) {
+                    ClientData player = ((ClientMessage)object).getData();
+                    data.updatePlayer(player);
                     sendToAllTCP(data);
                 }
             }
         });
         running = false;
+        server = this;
     }
 
     private void registerClass(Kryo kryo) {
@@ -70,6 +77,7 @@ public final class MyServer extends Server {
         kryo.register(String[].class);
         kryo.register(ArrayList.class);
         kryo.register(ClientData.class);
+        kryo.register(ClientMessage.class);
     }
 
     @Override
